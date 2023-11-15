@@ -32,6 +32,7 @@ function App() {
           element={
             <IsAnon>
               <SignupPage />
+
             </IsAnon>
           }
         />
