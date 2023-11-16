@@ -1,11 +1,12 @@
 import "./HomePage.css";
+import Maps from "../../components/Maps.jsx";
 
 function HomePage() {
-  return (
-    <div>
-      <h1>Home page</h1>
-    </div>
-  );
-}
+  
+  return <h1>
+    <Maps/>
+  </h1>;
+};
+
 
 export default HomePage;

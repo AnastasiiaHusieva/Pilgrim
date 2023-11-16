@@ -37,6 +37,17 @@ function SignupPage() {
         <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
 
         <form onSubmit={handleSignupSubmit}>
+
+        <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-600">Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={handleName}
+            />
+          </div>
+
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-600">Email:</label>
             <input
@@ -70,16 +81,7 @@ function SignupPage() {
             </div>
           </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-600">Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={handleName}
-              className="input-style"
-            />
-          </div>
+          
 
           <button
             type="submit"
