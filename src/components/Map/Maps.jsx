@@ -5,7 +5,7 @@ import { useTheme } from '../../components/ThemeContext';
 
 const containerStyle = {
   width: '100vw',
-  height: '85vh'
+  height: '88vh'
 };
 
 const center = {

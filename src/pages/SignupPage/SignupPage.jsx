@@ -35,37 +35,36 @@ function SignupPage() {
   return (
 
     <div className={`SignupPage min-h-screen flex items-center justify-center`}>
-      <div className={`p-8 ${isDarkMode ? 'dark' : 'light'} rounded shadow-md w-full sm:w-96`}>
+      <div className={`p-8 ${isDarkMode ? 'dark' : 'light'} rounded shadow-md w-70vw sm:w-96`}>
         <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
 
         <form onSubmit={handleSignupSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-600">Name:</label>
-            <input type="text" name="name" value={name} onChange={handleName} />
+          <div className="input-group mb-4 column">
+            <input type="text" className="input-style" name="name" value={name} onChange={handleName} />
+            <label className="label">Name:</label>
           </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-600">Email:</label>
+          <div className="input-group mb-4 column">
             <input
               type="email"
               name="email"
               value={email}
-              placeholder="Email"
               required
               onChange={handleEmail}
               className="input-style"
+              placeholder=""
             />
+            <label className="label">Email:</label>
           </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-600">Password:</label>
-            <div className="relative">
+          <div className="input-group mb-4 column">
+            <div className="flex relative">
               <input
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={password}
                 onChange={handlePassword}
-                className="input-style"
+                className="input-style relative"
               />
               <button
                 type="button"
@@ -75,11 +74,12 @@ function SignupPage() {
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
+            <label className="label">Password:</label>
           </div>
 
           <button
             type="submit"
-            className="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600 transition duration-300"
+            className="w-full bg-pink-600 text-white py-2 rounded-md hover:bg-pink-700 transition duration-300"
           >
             Sign Up
           </button>
@@ -88,7 +88,7 @@ function SignupPage() {
         {errorMessage && <p className="text-red-500 text-sm mt-4">{errorMessage}</p>}
 
         <p className="mt-4 text-gray-600">
-          Already have an account? <Link to="/login" className="text-indigo-500">Login</Link>
+          Already have an account? <Link to="/login" className="text-pink-600 hover:text-pink-400">Login</Link>
         </p>
       </div>
     </div>
