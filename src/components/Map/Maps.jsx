@@ -63,6 +63,24 @@ const lightModeStyles = {
         ],
       },
       {
+        featureType: 'administrative.locality',
+        elementType: 'labels',
+        stylers: [
+          {
+            visibility: 'off', // Locality labels color (hide city labels)
+          },
+        ],
+      },
+      {
+        featureType: 'administrative.country',
+        elementType: 'labels',
+        stylers: [
+          {
+            visibility: 'off', // Country labels color (hide country labels)
+          },
+        ],
+      },
+      {
         featureType: 'road',
         elementType: 'geometry',
         stylers: [
@@ -107,6 +125,11 @@ const lightModeStyles = {
 
 const darkModeStyles = {
     styles: [
+          {
+            featureType: 'poi.business',
+            elementType: 'labels.text',
+            stylers: [{ visibility: 'off' }], // Hide business labels
+          },
         {
             featureType: 'poi',
             elementType: 'labels',
@@ -116,7 +139,7 @@ const darkModeStyles = {
             featureType: 'landscape',
             elementType: 'geometry',
             stylers: [
-                { visibility: 'off' }, // Hide landscape elements
+                { visibility: 'on' }, // Hide landscape elements
             ],
         },
         {
@@ -162,6 +185,24 @@ const darkModeStyles = {
             ],
         },
         {
+            featureType: 'administrative.locality',
+            elementType: 'labels',
+            stylers: [
+              {
+                visibility: 'off', // Locality labels color (hide city labels)
+              },
+            ],
+          },
+          {
+            featureType: 'administrative.country',
+            elementType: 'labels',
+            stylers: [
+              {
+                visibility: 'off', // Country labels color (hide country labels)
+              },
+            ],
+          },
+        {
             featureType: 'road',
             elementType: 'geometry',
             stylers: [
@@ -188,6 +229,15 @@ const darkModeStyles = {
                 },
             ],
         },
+        {
+            featureType: 'water',
+            elementType: 'labels.text.fill',
+            stylers: [
+              {
+                visibility: 'off', // Hide water labels
+              },
+            ],
+          },
     ],
     mapTypeControl: false,
     zoomControl: false,
