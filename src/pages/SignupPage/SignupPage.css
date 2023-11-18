@@ -1,0 +1,31 @@
+/* SignupPage.css */
+/* Light Theme */
+.light {
+    background-color: #ffffff; /* Light background color */
+    color: #333333; /* Dark text color for light background */
+  }
+  
+  .light input {
+    border: 1px solid #ddd; /* Light border for input fields */
+  }
+  
+  /* Dark Theme */
+  .dark {
+    background-color: #b40e0e; /* Dark background color */
+    color: #ffffff; /* Light text color for dark background */
+  }
+  
+  .dark input {
+    border: 1px solid #555; /* Dark border for input fields */
+  }
+  
+  /* Common Styling */
+  .SignupPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Rest of your existing styles... */
+  
