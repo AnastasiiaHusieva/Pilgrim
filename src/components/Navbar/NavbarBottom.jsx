@@ -46,7 +46,7 @@ function NavbarBottom() {
     <nav className=" bottom-0 bg-teal-light xs:hidden z-50 border-t-black  border-t-2 pt-1">
       <div className=" flex justify-center gap-20 items-center">
         {isLoggedIn ? (
-          <Link to={"/profile"}>
+          <Link to={"/notification"}>
             <div className="avatar ">
               <Notification
                 className=" h-10 inline-flex w-full justify-center  bg-teal-light px-3  font-semibold "
@@ -84,7 +84,7 @@ function NavbarBottom() {
           </div>
         </Link>
         {isLoggedIn ? (
-          <Link to={"/profile"}>
+          <Link to={"/inbox"}>
             <div className="avatar ">
               <Message
                 className=" h-11 inline-flex w-full justify-center  bg-teal-light px-3  font-semibold "
