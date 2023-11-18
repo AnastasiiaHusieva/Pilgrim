@@ -11,9 +11,6 @@ function HomePage() {
   }
   return (
     <h1>
-      <div>
-        <p>Choose your travel destination</p>
-      </div>
       <Maps />
     </h1>
   );
