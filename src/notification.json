@@ -1,0 +1,62 @@
+[
+  {
+    "userId": "Diogo",
+    "message": "New message from John Doe",
+    "isRead": false,
+    "createdAt": "2023-01-01T12:00:00.000Z"
+  },
+  {
+    "userId": "Feras",
+    "message": "You have a meeting at 3:00 PM",
+    "isRead": false,
+    "createdAt": "2023-01-02T09:30:00.000Z"
+  },
+  {
+    "userId": "Leo",
+    "message": "New friend request from Jane Doe",
+    "isRead": false,
+    "createdAt": "2023-01-03T15:45:00.000Z"
+  },
+  {
+    "userId": "Leo",
+    "message": "New friend request from Jane Doe",
+    "isRead": false,
+    "createdAt": "2023-01-03T15:45:00.000Z"
+  },
+  {
+    "userId": "Leo",
+    "message": "New friend request from Jane Doe",
+    "isRead": false,
+    "createdAt": "2023-01-03T15:45:00.000Z"
+  },
+  {
+    "userId": "Leo",
+    "message": "New friend request from Jane Doe",
+    "isRead": false,
+    "createdAt": "2023-01-03T15:45:00.000Z"
+  },
+  {
+    "userId": "Leo",
+    "message": "New friend request from Jane Doe",
+    "isRead": false,
+    "createdAt": "2023-01-03T15:45:00.000Z"
+  },
+  {
+    "userId": "Leo",
+    "message": "New friend request from Jane Doe",
+    "isRead": false,
+    "createdAt": "2023-01-03T15:45:00.000Z"
+  },
+  {
+    "userId": "Leo",
+    "message": "New friend request from Jane Doe",
+    "isRead": false,
+    "createdAt": "2023-01-03T15:45:00.000Z"
+  },
+  {
+    "userId": "Leo",
+    "message": "New friend request from Jane Doe",
+    "isRead": false,
+    "createdAt": "2023-01-03T15:45:00.000Z"
+  }
+]
