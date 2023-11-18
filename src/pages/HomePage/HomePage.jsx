@@ -1,5 +1,5 @@
 import "./HomePage.css";
-import Maps from "../../components/Maps.jsx";
+import Maps from "../../components/Map/Maps.jsx";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context.jsx";
 import { useContext, useEffect, useState } from "react";

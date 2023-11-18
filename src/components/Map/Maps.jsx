@@ -25,159 +25,176 @@ const cities = [
 
 
 const lightModeStyles = {
-  styles: [
-    {
-      featureType: 'landscape',
-      elementType: 'geometry',
-      stylers: [
-        { visibility: 'off' }, // Hide landscape elements
-      ],
-    },
-    {
-      featureType: 'administrative',
-      elementType: 'geometry.stroke',
-      stylers: [
-        {
-          color: '93c19f', // Borders color (darker grey)
-        },
-      ],
-    },
-    {
-      featureType: 'administrative',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          visibility: 'off', // Administrative labels color
-        },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'geometry',
-      stylers: [
-        {
-          visibility: 'off', // Roads color (dark grey)
-        },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#5C5C5C', // Road labels color (darker grey)
-        },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#D0E8E4', // Very light grey-greenish color for water
-        },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          visibility: 'off', // Hide water labels
-        },
-      ],
-    },
-  ],
-  mapTypeControl: false,
-  zoomControl: false,
-  fullscreenControl: false,
-  streetViewControl: false,
-};
+    styles: [
+        
+      {
+        featureType: 'poi',
+        elementType: 'labels',
+        stylers: [ { visibility: 'off' }], // Hide points of interest labels
+      },
+      {
+        featureType: 'poi.business',
+        elementType: 'labels.text',
+        stylers: [{ visibility: 'off' }], // Hide business labels
+      },
+      {
+        featureType: 'landscape',
+        elementType: 'geometry',
+        stylers: [
+          { visibility: 'on' }, // Hide landscape elements
+        ],
+      },
+      {
+        featureType: 'administrative',
+        elementType: 'geometry.stroke',
+        stylers: [
+          {
+            color: '#fafafa', // Borders color (darker grey)
+          },
+        ],
+      },
+      {
+        featureType: 'administrative',
+        elementType: 'labels.text',
+        stylers: [
+          {
+            visibility: 'off', // Hide administrative labels (including countries)
+          },
+        ],
+      },
+      {
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [
+          {
+            visibility: 'off', // Roads color (dark grey)
+          },
+        ],
+      },
+      {
+        featureType: 'road',
+        elementType: 'labels.text.fill',
+        stylers: [
+          {
+            color: '#5C5C5C', // Road labels color (darker grey)
+          },
+        ],
+      },
+      {
+        featureType: 'water',
+        elementType: 'geometry',
+        stylers: [
+          {
+            color: '#D0E8E4', // Very light grey-greenish color for water
+          },
+        ],
+      },
+      {
+        featureType: 'water',
+        elementType: 'labels.text.fill',
+        stylers: [
+          {
+            visibility: 'off', // Hide water labels
+          },
+        ],
+      },
+    ],
+    mapTypeControl: false,
+    zoomControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+  };
 
 const darkModeStyles = {
-  styles: [
-    {
-      featureType: 'landscape',
-      elementType: 'geometry',
-      stylers: [
-        { visibility: 'off' }, // Hide landscape elements
-      ],
-    },
-    {
-      elementType: 'geometry',
-      stylers: [
+    styles: [
         {
-          color: '#2E2E2E', // Background color (dark grey)
-        },
-      ],
-    },
-    {
-      elementType: 'labels.text.stroke',
-      stylers: [
+            featureType: 'poi',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }], // Hide points of interest labels
+          },
         {
-          color: '#2E2E2E', // Text stroke color (dark grey)
+            featureType: 'landscape',
+            elementType: 'geometry',
+            stylers: [
+                { visibility: 'off' }, // Hide landscape elements
+            ],
         },
-      ],
-    },
-    {
-      elementType: 'labels.text.fill',
-      stylers: [
         {
-          color: '#7F7F7F', // Text color (light grey)
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#2E2E2E', // Background color (dark grey)
+                },
+            ],
         },
-      ],
-    },
-    {
-      featureType: 'administrative',
-      elementType: 'geometry.stroke',
-      stylers: [
         {
-          color: '#404040', // Borders color (darker grey)
+            elementType: 'labels.text.stroke',
+            stylers: [
+                {
+                    color: '#2E2E2E', // Text stroke color (dark grey)
+                },
+            ],
         },
-      ],
-    },
-    {
-      featureType: 'administrative',
-      elementType: 'labels.text.fill',
-      stylers: [
         {
-          visibility: 'off', // Administrative labels color
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#7F7F7F', // Text color (light grey)
+                },
+            ],
         },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'geometry',
-      stylers: [
         {
-          color: '#333333', // Roads color (dark grey)
+            featureType: 'administrative',
+            elementType: 'geometry.stroke',
+            stylers: [
+                {
+                    color: '#404040', // Borders color (darker grey)
+                },
+            ],
         },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'labels.text.fill',
-      stylers: [
         {
-          color: '#5C5C5C', // Road labels color (darker grey)
+            featureType: 'administrative',
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    visibility: 'off', // Administrative labels color
+                },
+            ],
         },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'geometry',
-      stylers: [
         {
-          color: '4f4c4c', // Water color (darker grey)
+            featureType: 'road',
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#333333', // Roads color (dark grey)
+                },
+            ],
         },
-      ],
-    },
-  ],
-  mapTypeControl: false,
-  zoomControl: false,
-  fullscreenControl: false,
-  streetViewControl: false,
+        {
+            featureType: 'road',
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#5C5C5C', // Road labels color (darker grey)
+                },
+            ],
+        },
+        {
+            featureType: 'water',
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '4f4c4c', // Water color (darker grey)
+                },
+            ],
+        },
+    ],
+    mapTypeControl: false,
+    zoomControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
 };
+
 
 
 
