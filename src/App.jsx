@@ -9,7 +9,7 @@ import NavbarBottom from "./components/Navbar/NavbarBottom";
 import Navbar from "./components/Navbar/Navbar";
 import IsPrivate from "./components/IsPrivate/IsPrivate";
 import IsAnon from "./components/IsAnon/IsAnon";
-
+import InboxPage from "./pages/InboxPage/InboxPage";
 function App() {
   return (
     <div className="App max-w-screen-xs mx-auto ">
@@ -40,6 +40,14 @@ function App() {
             <IsAnon>
               <LoginPage />
             </IsAnon>
+          }
+        />
+        <Route
+          path="/chat/:currentUserId"
+          element={
+            <IsPrivate>
+              <InboxPage />
+            </IsPrivate>
           }
         />
       </Routes>
