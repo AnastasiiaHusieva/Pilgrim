@@ -26,7 +26,7 @@ function InboxPage() {
         const updatedChats = await Promise.all(
           onGoingChats.map(async (chat) => {
             const recipientDetails = await fetchRecipientDetails(
-              chat.recipientId
+              user._id === chat.recipientId ? chat.senderId : chat.recipientId
             );
             return { ...chat, user: recipientDetails.name };
           })
@@ -38,7 +38,7 @@ function InboxPage() {
     };
 
     fetchNotifications();
-  }, []);
+  }, [chat]);
   const fetchRecipientDetails = async (recipientId) => {
     try {
       const response = await axios.get(
