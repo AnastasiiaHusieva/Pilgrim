@@ -1,3 +1,107 @@
+.bubble-menu-item {
+    @apply bg-white relative rounded-full w-11 h-11 flex items-center justify-center mb-2;
+  }
 
+  .bubble-menu-item {
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
+    position: relative;
+    
+  }
+
+  .move1 {
+    animation: moveDown1 0.5s ease-in-out forwards;
+  }
+
+  @keyframes moveDown1 {
+    from {
+      transform: translateY(-30px) translateX(0);
+    }
+    to {
+      transform: translateY(20px) translateX(0);
+    }
+  }
+  .move1::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 1px;
+    font-size: 15px;
+  }
+
+  .move2 {
+    animation: moveDown2 0.5s ease-in-out forwards;
+  }
+  
+  @keyframes moveDown2 {
+    from {
+      transform: translateY(-60px) translateX(0);
+    }
+    to {
+      transform: translateY(-70px) translateX(60px);
+    }
+  }
+
+  .move2::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 1px;
+    font-size: 15px;
+  }
+
+  .move3 {
+    animation: moveDown3 0.5s ease-in-out forwards;
+  }
+  
+  @keyframes moveDown3 {
+    from {
+      transform: translateY(-90px) translateX(0);
+    }
+    to {
+      transform: translateY(-185px) translateX(55px);
+    }
+  }
+
+  .move3::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 0.1px;
+    font-size: 15px;
+  }
+
+  .move4 {
+    animation: moveDown4 0.5s ease-in-out forwards;
+  }
+  
+  @keyframes moveDown4 {
+    from {
+      transform: translateY(-120px) translateX(0);
+    }
+    to {
+      transform: translateY(-270px) translateX(0px);
+    }
+  }
+
+  .move4::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 1px;
+    font-size: 15px;
+  }
+  
 
 
