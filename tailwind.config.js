@@ -31,6 +31,13 @@ module.exports = {
           darker: "#38968f",
           dark: "#153836",
         },
+        airbnbpink: {
+          verylight: "#fcd7df",
+          light: "#f5728e",
+          original: "#F1355D",
+          darker: "#c12a4a",
+          dark: "#48101c",
+        },
       },
     },
   },
