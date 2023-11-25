@@ -22,9 +22,6 @@ const cities = [
   { id: 4, name: 'Rome', position: { lat: 41.9028, lng: 12.4964 } },
 ];
 
-// change
-
-
 
 const lightModeStyles = {
   styles: [

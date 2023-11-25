@@ -10,6 +10,9 @@ import Navbar from "./components/Navbar/Navbar";
 import IsPrivate from "./components/IsPrivate/IsPrivate";
 import IsAnon from "./components/IsAnon/IsAnon";
 import InboxPage from "./pages/InboxPage/InboxPage";
+import Newsfeed from "./pages/Newsfeed/Newsfeed";
+import LikesPage from "./components/Likes/LikesPage";
+
 function App() {
   return (
     <div className="App max-w-screen-xs mx-auto ">
@@ -47,6 +50,23 @@ function App() {
           element={
             <IsPrivate>
               <InboxPage />
+            </IsPrivate>
+          }
+        />
+        <Route
+          path="/posts"
+          element={
+            <IsPrivate>
+              <Newsfeed />
+            </IsPrivate>
+          }
+        />
+
+        <Route
+          path="/likes/:postId"
+          element={
+            <IsPrivate>
+              <LikesPage />
             </IsPrivate>
           }
         />

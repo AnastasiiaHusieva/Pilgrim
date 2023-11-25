@@ -38,7 +38,7 @@ function InboxPage() {
     };
 
     fetchNotifications();
-  }, [chat]);
+  }, []);
   const fetchRecipientDetails = async (recipientId) => {
     try {
       const response = await axios.get(
