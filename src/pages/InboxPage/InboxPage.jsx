@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import React from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/auth.context";
@@ -6,10 +7,14 @@ import { AuthContext } from "../../context/auth.context";
 
 function InboxPage() {
   const [chat, setNewChat] = useState([]);
+  const [firstMessage, setFirstMessage] = useState([]);
   // const [userId, setUserId] = useState("");
 
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
+  const todaysDate = new Date();
+  console.log("!!!!!!!!!!!", chat);
 
+  // console.log("**********", messageDate);
   console.log("@@@@@@@@@@", user._id);
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -28,7 +33,11 @@ function InboxPage() {
             const recipientDetails = await fetchRecipientDetails(
               user._id === chat.recipientId ? chat.senderId : chat.recipientId
             );
-            return { ...chat, user: recipientDetails.name };
+            return {
+              ...chat,
+              user: recipientDetails.name,
+              email: recipientDetails.email,
+            };
           })
         );
         setNewChat(updatedChats);
@@ -38,7 +47,7 @@ function InboxPage() {
     };
 
     fetchNotifications();
-  }, [chat]);
+  }, []);
   const fetchRecipientDetails = async (recipientId) => {
     try {
       const response = await axios.get(
@@ -52,11 +61,44 @@ function InboxPage() {
   };
   console.log("hello", chat);
   return (
-    <div>
-      <h1>INBOX</h1>
-      {chat.map((chat) => (
-        <div> {chat.user}</div>
-      ))}
+    <div className="text-xs min-w-screen screen-xs">
+      <h1 className="pt-2 pb-5">INBOX</h1>
+      <ul className="w-12 text-xs ">
+        {chat.map((chat, id) => (
+          <Link>
+            {" "}
+            <li className="flex p-1 pb-4 gap-2 items-start" key={chat._id}>
+              {" "}
+              <img
+                className=" w-8 h-8 rounded-full "
+                src="/imgs/leo.jpg"
+                alt=""
+              />{" "}
+              <h2 className="">
+                <strong>{chat.user}</strong>{" "}
+              </h2>
+              <div>
+                <p className="w-60 text-md">{chat.messages[0].text}...</p>
+                <p className="font-bold">
+                  {todaysDate ===
+                  new Date(chat.messages[0].createdAt).toLocaleString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                  })
+                    ? todaysDate
+                    : new Date(chat.messages[0].createdAt).toLocaleString(
+                        "en-US",
+                        {
+                          month: "short",
+                          day: "numeric",
+                        }
+                      )}
+                </p>
+              </div>
+            </li>
+          </Link>
+        ))}
+      </ul>
     </div>
   );
 }

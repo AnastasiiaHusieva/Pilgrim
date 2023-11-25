@@ -1,3 +1,4 @@
 .App {
   text-align: center;
+  min-width: fit-content;
 }

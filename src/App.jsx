@@ -12,7 +12,7 @@ import IsAnon from "./components/IsAnon/IsAnon";
 import InboxPage from "./pages/InboxPage/InboxPage";
 function App() {
   return (
-    <div className="App max-w-screen-xs mx-auto ">
+    <div className="App max-w-screen-xs mx-auto h-screen">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
