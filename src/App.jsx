@@ -15,7 +15,7 @@ import LikesPage from "./components/Likes/LikesPage";
 
 function App() {
   return (
-    <div className="App max-w-screen-xs mx-auto ">
+    <div className="App max-w-screen-xs mx-auto h-screen">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />

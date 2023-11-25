@@ -45,7 +45,7 @@ function NavbarBottom() {
   // the values from AuthContext.Provider's `value` prop
 
   return (
-    <nav className=" bottom-0 bg-teal-light xs:hidden z-50 border-t-black  border-t-2 pt-1">
+    <nav className=" bottom-0 bg-teal-light xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen ">
       <div className=" flex justify-center gap-20 items-center">
         {isLoggedIn ? (
           <Link to={"/notification"}>
