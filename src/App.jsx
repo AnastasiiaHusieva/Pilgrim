@@ -12,6 +12,7 @@ import IsAnon from "./components/IsAnon/IsAnon";
 import InboxPage from "./pages/InboxPage/InboxPage";
 import Newsfeed from "./pages/Newsfeed/Newsfeed";
 import LikesPage from "./components/Likes/LikesPage";
+import CommentsPage from "./components/Comments/CommentsPage";
 
 function App() {
   return (
@@ -54,7 +55,7 @@ function App() {
           }
         />
         <Route
-          path="/posts"
+          path="/posts/:cityId"
           element={
             <IsPrivate>
               <Newsfeed />
@@ -70,6 +71,15 @@ function App() {
             </IsPrivate>
           }
         />
+         <Route
+          path="/comments/:postId"
+          element={
+            <IsPrivate>
+              <CommentsPage />
+            </IsPrivate>
+          }
+        />
+       
       </Routes>
 
       <NavbarBottom />

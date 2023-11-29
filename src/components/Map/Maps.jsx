@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { GoogleMap, useJsApiLoader, OverlayView, Marker } from '@react-google-maps/api';
 import { useTheme } from '../../components/ThemeContext';
 import './Maps.css';
@@ -15,13 +16,12 @@ const center = {
   lng: 10.4515,
 };
 
-const cities = [
-  { id: 1, name: 'Paris', position: { lat: 48.8566, lng: 2.3522 } },
-  { id: 2, name: 'Berlin', position: { lat: 52.5200, lng: 13.4050 } },
-  { id: 3, name: 'Madrid', position: { lat: 40.4168, lng: -3.7038 } },
-  { id: 4, name: 'Rome', position: { lat: 41.9028, lng: 12.4964 } },
-];
-
+//const cities = [
+//  { id: 1, name: 'Paris', position: { lat: 48.8566, lng: 2.3522 } },
+//  { id: 2, name: 'Berlin', position: { lat: 52.5200, lng: 13.4050 } },
+//  { id: 3, name: 'Madrid', position: { lat: 40.4168, lng: -3.7038 } },
+//  { id: 4, name: 'Rome', position: { lat: 41.9028, lng: 12.4964 } },
+//];
 
 const lightModeStyles = {
   styles: [
@@ -256,7 +256,29 @@ function Maps() {
   const [map, setMap] = React.useState(null);
   const { isDarkMode } = useTheme();
   const [selectedCity, setSelectedCity] = useState(null);
+  const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        setLoading(true);
+
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/cities`);
+
+        setCities(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error('Error fetching cities:', error);
+        setError('Error fetching cities. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCities();
+  }, []);
 
 
   const mapOptions = {
@@ -267,7 +289,6 @@ function Maps() {
     streetViewControl: false,
   };
 
-
   const onLoad = React.useCallback(function callback(map) {
     setMap(map);
   }, []);
@@ -277,13 +298,13 @@ function Maps() {
   }, []);
 
   const handleCityClick = (city) => {
-    if (selectedCity && selectedCity.id === city.id) {
+    if (selectedCity && selectedCity._id === city._id) {
       setSelectedCity(null);
     } else {
       setSelectedCity(city);
+      console.log('Selected City:', selectedCity);
     }
   };
-
 
   const handleMapClick = () => {
     setSelectedCity(null);
@@ -293,25 +314,25 @@ function Maps() {
     if (!map) {
       return { left: 0, top: 0 };
     }
-  
+
     const projection = map.getProjection();
-  
+
     if (!projection || typeof projection.fromLatLngToContainerPixel !== 'function') {
       return { left: 0, top: 0 };
     }
-  
+
     const pixel = projection.fromLatLngToContainerPixel(new window.google.maps.LatLng(position.lat, position.lng));
-  
+
     // Adjust the positioning based on your preference
     const offsetX = -50; // Adjust as needed
     const offsetY = -50; // Adjust as needed
-  
+
     return {
       left: pixel.x + offsetX,
       top: pixel.y + offsetY,
     };
   };
-  
+
 
   return isLoaded ? (
     <GoogleMap
@@ -324,7 +345,7 @@ function Maps() {
       onClick={handleMapClick}
     >
       {cities.map((city) => (
-        <React.Fragment key={city.id}>
+        <React.Fragment key={city._id}>
           <Marker onClick={() => { handleCityClick(city); console.log("dfghjklkjhbgvfcdfghj") }}
             position={city.position}
             icon={{
@@ -340,23 +361,25 @@ function Maps() {
             position={city.position}
             mapPaneName={OverlayView.OVERLAY_LAYER}
           >
-            <div onClick={(e) => { e.stopPropagation(); handleCityClick(city); }} className={`absolute transform -translate-x-1/2 px-5 py-0 rounded font-bold text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-600'}`}
-              style={{ left: '50%', transform: 'translateX(-50%)' }}>
+            <div onClick={(e) => { e.stopPropagation(); handleCityClick(city); }} className={`absolute transform -translate-x-1/2 px-5 py-0 rounded font-bold text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-600'}`}>
               {city.name}
-              {selectedCity && selectedCity.id === city.id && (
+              {selectedCity && selectedCity._id === city._id && (
                 <div className="bubble-menu flex flex-col items-center" style={calculateBubbleMenuPosition(map, city.position)}>
-                  <Link className="bubble-menu-item move1" data-label="Hotels" style={{ transform: 'translateY(20px) translateX(0px)'}}>
+                  <Link className="bubble-menu-item move1" data-label="Hotels" style={{ transform: 'translateY(20px) translateX(0px)' }}>
                     <img src="/hotel.png" alt="hotel" className="w-6 h-6" />
                   </Link>
-                  <Link  className="bubble-menu-item move2" data-label="Cafe" style={{ transform: ' translateY(-70px) translateX(60px)'}}>
+                  <Link className="bubble-menu-item move2" data-label="Cafe" style={{ transform: ' translateY(-70px) translateX(60px)' }}>
                     <img src="/cafe.png" alt="diet" className="w-6 h-6" />
-                   </Link>
-                  <Link  className="bubble-menu-item move3" data-label="Events" style={{ transform: 'translateY(-185px) translateX(55px)' }}>
+                  </Link>
+                  <Link className="bubble-menu-item move3" data-label="Events" style={{ transform: 'translateY(-185px) translateX(55px)' }}>
                     <img src="/planner.png" alt="people" className="w-6 h-6" />
-                   </Link>
-                  <Link  className="bubble-menu-item move4" data-label="Feed" style={{ transform: 'translateY(-270px) translateX(0px)' }}>
+                  </Link>
+                  <Link to={`/posts`} onClick={(e) => {
+                    e.stopPropagation();
+                    console.log("feed is clicked");
+                  }} className="bubble-menu-item move4" data-label="Feed" style={{ transform: 'translateY(-270px) translateX(0px)' }}>
                     <img src="/publication.png" alt="publication" className="w-6 h-6" />
-                   </Link>
+                  </Link>
                 </div>
 
               )}
