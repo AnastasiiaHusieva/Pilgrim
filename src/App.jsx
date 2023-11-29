@@ -12,6 +12,8 @@ import IsAnon from "./components/IsAnon/IsAnon";
 import InboxPage from "./pages/InboxPage/InboxPage";
 import Newsfeed from "./pages/Newsfeed/Newsfeed";
 import LikesPage from "./components/Likes/LikesPage";
+import Messages from "./pages/messages/messages";
+import { useState } from "react";
 
 function App() {
   return (
@@ -53,6 +55,15 @@ function App() {
             </IsPrivate>
           }
         />
+        <Route
+          path={`/chat/:userId/:chatId/messages`}
+          element={
+            <IsPrivate>
+              <Messages />
+            </IsPrivate>
+          }
+        />
+
         <Route
           path="/posts"
           element={

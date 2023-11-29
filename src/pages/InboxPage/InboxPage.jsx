@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
+
 import React from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/auth.context";
@@ -10,7 +11,7 @@ function InboxPage() {
   const [firstMessage, setFirstMessage] = useState([]);
   // const [userId, setUserId] = useState("");
 
-  const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const todaysDate = new Date();
   console.log("!!!!!!!!!!!", chat);
 
@@ -65,34 +66,45 @@ function InboxPage() {
       <h1 className="pt-2 pb-5">INBOX</h1>
       <ul className="w-12 text-xs ">
         {chat.map((chat, id) => (
-          <Link>
-            {" "}
-            <li className="flex p-1 pb-4 gap-2 items-start" key={chat._id}>
-              {" "}
+          <Link
+            to={`/chat/${user._id}/${
+              chat._id
+            }/messages?user=${encodeURIComponent(JSON.stringify(chat))}`}
+            key={chat._id}
+          >
+            <li className="flex p-1 pb-4 gap-2 items-start">
               <img
                 className=" w-8 h-8 rounded-full "
                 src="/imgs/leo.jpg"
                 alt=""
               />{" "}
               <h2 className="">
-                <strong>{chat.user}</strong>{" "}
+                <strong>{chat.user}</strong>
               </h2>
               <div>
-                <p className="w-60 text-md">{chat.messages[0].text}...</p>
+                <p className="w-60 text-md">
+                  {chat.messages.length >= 0
+                    ? chat.messages[chat.messages.length - 1].text
+                    : ""}
+                  ...
+                </p>
                 <p className="font-bold">
                   {todaysDate ===
-                  new Date(chat.messages[0].createdAt).toLocaleString("en-US", {
+                  new Date(
+                    chat.messages.length >= 0 ? chat.messages[0].createdAt : ""
+                  ).toLocaleString("en-US", {
                     hour: "numeric",
                     minute: "numeric",
                   })
                     ? todaysDate
-                    : new Date(chat.messages[0].createdAt).toLocaleString(
-                        "en-US",
-                        {
-                          month: "short",
-                          day: "numeric",
-                        }
-                      )}
+                    : new Date(
+                        chat.messages.length >= 0
+                          ? chat.messages[0].createdAt
+                          : ""
+                      ).toLocaleString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })}
                 </p>
               </div>
             </li>
