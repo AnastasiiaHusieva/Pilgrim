@@ -16,16 +16,15 @@ function CommentsPage() {
         'Authorization': `Bearer ${authToken}`,
     };
     const { user } = useContext(AuthContext);
-    const userId = user._id
+    const userId = user._id;
 
     useEffect(() => {
         const fetchComments = async () => {
             try {
                 setLoading(true);
-                console.log(postId)
                 const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/comments/${postId}`);
-                console.log(response.data)
                 setComments(response.data.comments);
+                console.log(response.data.comments)
             } catch (error) {
                 console.error('Error fetching comments:', error);
                 setError('Error fetching comments. Please try again.');
@@ -37,86 +36,82 @@ function CommentsPage() {
         fetchComments();
     }, [postId]);
 
-
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
 
         try {
-           const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/comments/add`, {
-                userId: userId,
-                content: newComment,
-                postId,
-            });
-            console.log(response.data)
+            if (editingCommentId !== null) {
+                // Editing existing comment
+                await axios.patch(`${process.env.REACT_APP_SERVER_URL}/comments/${editingCommentId}`, {
+                    content: newComment,
+                });
+
+                setEditingCommentId(null);
+            } else {
+                // Adding new comment
+                await axios.post(`${process.env.REACT_APP_SERVER_URL}/comments/add`, {
+                    userId: userId,
+                    content: newComment,
+                    postId,
+                });
+            }
+
+            const updatedCommentsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/comments/${postId}`);
+            setComments(updatedCommentsResponse.data.comments);
             setNewComment('');
-            //fetchComments();
-            const updatedCommentsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/comments/${postId}`);
-            setComments(updatedCommentsResponse.data.comments);
         } catch (error) {
-            console.error('Error creating comment:', error);
+            console.error('Error creating/editing comment:', error);
         }
     };
 
-    const handleEditClick = (commentId) => {
+    const handleEditClick = (commentId, currentContent) => {
         setEditingCommentId(commentId);
-    };
-
-    const handleEditSubmit = async (commentId, updatedContent) => {
-        try {
-            await axios.patch(`${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`, {
-                content: updatedContent,
-            });
-
-            const updatedCommentsResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/comments/${postId}`);
-            setComments(updatedCommentsResponse.data.comments);
-
-            setEditingCommentId(null); 
-        } catch (error) {
-            console.error('Error editing comment:', error);
-        }
+        setNewComment(currentContent);
     };
 
     return (
-        <div>
-            <h2>Likes</h2>
+        <div className="bg-gray-100">
+            <div className="flex items-center justify-center gap-5">
+                <img className="w-9 h-9" src="/imgs/commentIcon.png" alt="commentIcon" />
+                <h2 className="text-2xl text-gray-600 py-5">{comments.length} Comments</h2>
+            </div>
+            <hr className="mb-10" />
             {loading && <p>Loading...</p>}
             {error && <p>{error}</p>}
             <form onSubmit={handleCommentSubmit}>
-                <label>Add a Comment:</label>
-                <input
-                    type="text"
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                />
-                <button type="submit">Submit</button>
+                <div className="flex items-center mb-5">
+                    <input
+                        type="text"
+                        value={newComment}
+                        placeholder={'Type new comment'}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        className={`relative input bg-gray-100 border-gray-600 rounded-2xl w-full pt-2 pl-2 mr-3 ml-3`}
+                    />
+                    <button className="absolute right-3 flex items-center px-2 py-2" type="submit">{editingCommentId !== null ? 'Save' : <img className="w-8 hover:bg-teal" src="/imgs/more.png" alt="submit" />}</button>
+                </div>
             </form>
             <ul>
-            {comments.map((comment) => (
-                    <li key={comment._id}>
-                        {editingCommentId === comment._id ? (
-                            <>
-                                <input
-                                    type="text"
-                                    value={newComment}
-                                    onChange={(e) => setNewComment(e.target.value)}
-                                />
-                                <button onClick={() => handleEditSubmit(comment._id, newComment)}>Save</button>
-                            </>
-                        ) : (
-                            <>
-                                {comment.user.name}: {comment.content}
-                                {comment.user._id === userId && (
-                                    <>
-                                        <button onClick={() => handleEditClick(comment._id)}>Edit</button>
-                                    </>
-                                )}
-                            </>
-                        )}
+                {comments.reverse().map((comment) => (
+                    <li className=" flex column gap-0 mt-5" key={comment._id}>
+                        <div className='flex items-start mx-5 '>
+                            <img src={comment.user.photo} alt="" />
+                            <p> {comment.user.name}</p>
+                        </div>
+                        <br />
+                        <div className=" flex items-start max-w-4/5 relative mx-5 whitespace-pre-line">
+                            <p className="">  {comment.content}</p>
+                            {comment.user._id === userId && (
+                                <>
+                                    <button className="absolute right-3 " onClick={() => handleEditClick(comment._id, comment.content)}> <img className="w-5" src='/imgs/editing.png' alt="edit" /></button>
+                                </>
+                            )}
+                        </div>
+
                     </li>
                 ))}
             </ul>
         </div>
     );
-};
+}
 
 export default CommentsPage;

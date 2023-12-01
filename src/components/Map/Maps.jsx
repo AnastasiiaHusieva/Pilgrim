@@ -345,6 +345,7 @@ function Maps() {
           <OverlayView
             position={city.position}
             mapPaneName={OverlayView.OVERLAY_LAYER}
+            style={{ zIndex: 1000 }}
           >
             <div
               onClick={(e) => {
