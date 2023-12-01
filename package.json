@@ -14,7 +14,7 @@
     "js-sha512": "^0.8.0",
     "jsdom": "^22.1.0",
     "mysql": "^2.18.1",
-    "pusher": "^5.2.0",
+    "pusher-js": "^8.4.0-rc1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",

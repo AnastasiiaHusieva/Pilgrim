@@ -9,50 +9,58 @@ import { AuthContext } from "../../context/auth.context";
 function InboxPage() {
   const [chat, setNewChat] = useState([]);
   const [firstMessage, setFirstMessage] = useState([]);
+
   // const [userId, setUserId] = useState("");
 
   const { user } = useContext(AuthContext);
   const todaysDate = new Date();
-  console.log("!!!!!!!!!!!", chat);
+  // console.log("!!!!!!!!!!!", chat);
 
   // console.log("**********", messageDate);
-  console.log("@@@@@@@@@@", user._id);
+  // console.log("@@@@@@@@@@", user._id);
   useEffect(() => {
-    const fetchNotifications = async () => {
+    const fetchChats = async () => {
       try {
-        // const token = getToken();
-        // console.log(token);
-        const userChat = await axios.get(
+        const senderChats = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/chat/${user._id}`
         );
-        console.log("%%%%%%%%%%%%", userChat);
 
-        // Assuming userChat.data is anChat of users
-        const onGoingChats = userChat.data;
+        const recipientChats = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/chat/recipient/${user._id}`
+        );
+
+        const combinedChats = [...senderChats.data, ...recipientChats.data];
+
         const updatedChats = await Promise.all(
-          onGoingChats.map(async (chat) => {
-            const recipientDetails = await fetchRecipientDetails(
-              user._id === chat.recipientId ? chat.senderId : chat.recipientId
-            );
+          combinedChats.map(async (chat) => {
+            const otherUserId =
+              user._id === chat.recipientId ? chat.senderId : chat.recipientId;
+
+            const chatDetails = await fetchRecipientDetails(otherUserId);
+
             return {
               ...chat,
-              user: recipientDetails.name,
-              email: recipientDetails.email,
+              user: chatDetails.name,
+              email: chatDetails.email,
             };
           })
         );
+
         setNewChat(updatedChats);
       } catch (error) {
         console.log("Error fetching data", error);
       }
     };
 
-    fetchNotifications();
-  }, []);
-  const fetchRecipientDetails = async (recipientId) => {
+    fetchChats();
+  }, [user._id]);
+
+  // Assuming this is inside a React component
+
+  const fetchRecipientDetails = async (senderOrRecipient) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/user/${recipientId}`
+        `${process.env.REACT_APP_SERVER_URL}/user/${senderOrRecipient}`
       );
       return response.data; // Assuming the API returns user details
     } catch (error) {
@@ -60,7 +68,32 @@ function InboxPage() {
       return {}; // Return an empty object or handle the error as needed
     }
   };
-  console.log("hello", chat);
+  console.log("AAAAAA", chat);
+  // const promises = chat.map((singleChat) => {
+  //   return axios
+  //     .get(
+  //       `${process.env.REACT_APP_SERVER_URL}/chat/recipient/${singleChat.recipientId}`
+  //     )
+  //     .then((response) => {
+  //       console.log("Success fetching recipient details:", response.data);
+  //       return response.data;
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error fetching recipient details", err);
+  //       return {}; // Return an empty object or handle the error as needed
+  //     });
+  // });
+
+  // Promise.all(promises)
+  //   .then((allRecipientData) => {
+  //     console.log("All recipient data:", allRecipientData);
+  //     // Now you can use allRecipientData as an array containing the data from all requests.
+  //   })
+  //   .catch((error) => {
+  //     console.log("Error fetching chat details", error);
+  //   });
+
+  // console.log("hello", chat[0].recipientId);
   return (
     <div className="text-xs min-w-screen screen-xs">
       <h1 className="pt-2 pb-5">INBOX</h1>

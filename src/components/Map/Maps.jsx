@@ -323,6 +323,7 @@ function Maps() {
       onLoad={onLoad}
       onUnmount={onUnmount}
       onClick={handleMapClick}
+      style={{ zIndex: "1" }}
     >
       {cities.map((city) => (
         <React.Fragment key={city.id}>
@@ -385,7 +386,10 @@ function Maps() {
                   <Link
                     className="bubble-menu-item move4"
                     data-label="Feed"
-                    style={{ transform: "translateY(-270px) translateX(0px)" }}
+                    style={{
+                      transform: "translateY(-270px) translateX(0px)",
+                      zIndex: "-1000",
+                    }}
                   >
                     <img
                       src="/publication.png"
