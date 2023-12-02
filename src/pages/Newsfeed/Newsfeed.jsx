@@ -103,7 +103,7 @@ function Newsfeed() {
     setIsInputFocused(false);
   };
 
-// action={`/posts/${cityId}`}
+  // action={`/posts/${cityId}`}
   return (
     <div className="container mx-auto my-8 p-8 rounded-lg">
       <div className="mb-8">
@@ -116,8 +116,8 @@ function Newsfeed() {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               onChange={(e) => setCaption(e.target.value)}
-              className={`input border-gray-300 ${isInputFocused ? 'p-20' : 'p-'
-                }  w-full pt-2 pl-2`}
+              className={`input relative rounded-xl border-gray-300 ${isInputFocused ? 'p-20' : 'p-'
+                }  w-full pt-2 pl-2 mb-5`}
             />
             <label
               className={`${isInputFocused ? 'invisible' : 'visible'
@@ -125,11 +125,26 @@ function Newsfeed() {
             >
               What's new?
             </label>
-            <input
-              type="file"
-              name="photo"
-              onChange={(e) => setPhoto(e.target.files[0])}
-            />
+            <div className="absolute top-0 right-0">
+              <label
+                htmlFor="photo"
+                className="inline-block p-2 cursor-pointer"
+              >
+                <img
+                  src="/imgs/paper-clip.png"
+                  alt="Pin Icon"
+                  className="h-6 w-6"
+                />
+              </label>
+              <input
+                type="file"
+                name="photo"
+                id="photo"
+                onChange={(e) => setPhoto(e.target.files[0])}
+                className="hidden"
+              />
+            </div>
+
             <button
               className="btn btn-sm btn-accent"
             >
