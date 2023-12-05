@@ -19,6 +19,7 @@ function NavbarBottom() {
   const [userImg, setUserImg] = useState("");
   const [numberOfMessage, setNewNumberOfMessage] = useState(null);
   const { isLoggedIn, user } = useContext(AuthContext);
+  const userId = user._id
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -65,7 +66,7 @@ function NavbarBottom() {
     <nav className=" bottom-0 bg-teal-light xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen ">
       <div className=" flex justify-center gap-20 items-center">
         {isLoggedIn ? (
-          <Link to={"/notification"}>
+          <Link to={`/notifications/${userId}`}>
             <div className="avatar ">
               <Notification
                 className=" h-10 inline-flex w-full justify-center  bg-teal-light px-3  font-semibold "
