@@ -97,7 +97,7 @@ function ProfilePage() {
         <div className="absolute text-white inset-0 flex column top-2 justify-start items-start p-2">
           <h1 className="justify-self-center">Profile</h1>
           <div className="w-16 flex justify-start items-center gap-3 pt-3 pb-2">
-            {userImg !== "" || undefined ? (
+            {userImg !== undefined ? (
               <img
                 className="w-18 h-18 object-cover  rounded-full border-2 border-black"
                 src={userImg}
