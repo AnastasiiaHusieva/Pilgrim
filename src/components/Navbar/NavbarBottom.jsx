@@ -16,29 +16,46 @@ function classNames(...classes) {
 }
 
 function NavbarBottom() {
+  const [userImg, setUserImg] = useState("");
   const [numberOfMessage, setNewNumberOfMessage] = useState(null);
-  const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
-  // console.log(currentUserId);
+  const { isLoggedIn, user } = useContext(AuthContext);
+
   useEffect(() => {
+    const fetchPhoto = async () => {
+      try {
+        const getPhoto = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/user/${user._id}`
+        );
+        setUserImg(getPhoto.data.photo);
+        console.log(userImg);
+      } catch (err) {
+        console.log("this is the image fetching axios fetch", err);
+      }
+    };
+    fetchPhoto();
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    // const userID = user._id;
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5005/chat/${user.id}`
+          `http://localhost:5005/chat/recieved/${user._id}`
         );
         const newMessage = response.data;
-        console.log(newMessage);
+        console.log("this is what im logging ", newMessage);
         if (newMessage.length !== numberOfMessage) {
           setNewNumberOfMessage(newMessage.length);
         }
       } catch (error) {
-        console.log("Error feching data");
+        console.log("this is the messages of the users fetch error ", error);
       }
     };
     fetchNotifications();
-    const interval = setInterval(() => {
-      fetchNotifications();
-    }, 10000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => {
+    //   fetchNotifications();
+    // }, 6000);
+    // return () => clearInterval(interval);
   }, [numberOfMessage]);
   console.log(numberOfMessage);
   // Subscribe to the AuthContext to gain access to
@@ -68,7 +85,7 @@ function NavbarBottom() {
                     <button>
                       <img
                         className="  rounded-full border-2 border-black"
-                        src="/imgs/leo.jpg"
+                        src={userImg}
                         alt=""
                       />{" "}
                     </button>

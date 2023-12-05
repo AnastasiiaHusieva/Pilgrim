@@ -16,7 +16,7 @@ import Newsfeed from "./pages/Newsfeed/Newsfeed";
 import LikesPage from "./components/Likes/LikesPage";
 import CommentsPage from "./components/Comments/CommentsPage";
 import Messages from "./pages/messages/messages";
-import UserProfilePage from "./pages/HomePage/UserProfilePage.jsx/UserProfilePage";
+
 import { useState } from "react";
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
 
         <Route
-          path="/profile"
+          path="/profile/"
           element={
             <IsPrivate>
               <ProfilePage />
@@ -118,14 +118,6 @@ function App() {
           element={
             <IsPrivate>
               <CommentsPage />
-            </IsPrivate>
-          }
-        />
-        <Route
-          path="/userprofile"
-          element={
-            <IsPrivate>
-              <UserProfilePage />
             </IsPrivate>
           }
         />

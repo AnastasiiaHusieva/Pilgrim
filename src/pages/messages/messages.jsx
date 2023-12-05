@@ -11,7 +11,10 @@ function Messages() {
   const [chat, setChat] = useState([]);
 
   const [loading, setLoading] = useState(true);
-
+  const location = useLocation();
+  const userParam = new URLSearchParams(location.search).get("user");
+  const chatData = userParam ? JSON.parse(decodeURIComponent(userParam)) : null;
+  console.log("chat data", chatData._id);
   useEffect(() => {
     getChat();
 
@@ -19,16 +22,15 @@ function Messages() {
       cluster: "eu",
       encrypted: true,
     });
-    const channel = pusher.subscribe(`chat_${chat._id}`);
+    const channel = pusher.subscribe(`chat`);
     channel.bind(`message`, (data) => {
+      console.log(chatData._id === data._id);
       console.log("Message data: ", data);
-      setChat(data);
+      if (chatData._id === data._id) {
+        setChat(data);
+      }
     });
   }, []);
-
-  const location = useLocation();
-  const userParam = new URLSearchParams(location.search).get("user");
-  const chatData = userParam ? JSON.parse(decodeURIComponent(userParam)) : null;
 
   const getChat = async () => {
     const thisChat = await axios.get(
@@ -40,10 +42,10 @@ function Messages() {
 
   const { user } = useContext(AuthContext);
   const userId = user._id;
-  // console.log("thissssssssssss", userId);
-  useEffect(() => {
-    setIsRead(true);
-  }, [isRead]);
+
+  // useEffect(() => {
+  //   setIsRead(true);
+  // }, [isRead]);
 
   const config = {
     headers: {
@@ -52,7 +54,9 @@ function Messages() {
   };
 
   useEffect(() => {
-    console.log(chat);
+    // const setMessagesToRead = chat.messages.map((message) => {
+    //   return (message.isRead = true);
+    // });
   }, [chat]);
 
   const sendMessage = async (e) => {
