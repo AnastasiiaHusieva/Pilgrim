@@ -106,11 +106,11 @@ function InboxPage() {
             key={chat._id}
           >
             <li className="flex p-1 pb-4 gap-2 items-start">
-              <img
+              {/* <img
                 className=" w-8 h-8 rounded-full "
                 src="/imgs/leo.jpg"
                 alt=""
-              />{" "}
+              />{" "} */}
               <h2 className="">
                 <strong>{chat.user}</strong>
               </h2>
