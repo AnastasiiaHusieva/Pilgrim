@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import authService from '../../services/auth.service';
-import { useTheme } from '../../components//ThemeContext';
+import { useTheme } from '../../context//ThemeContext';
 import './SignupPage.css';
 import { AuthContext } from '../../context/auth.context'; 
 

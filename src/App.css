@@ -2,3 +2,31 @@
   text-align: center;
   min-width: fit-content;
 }
+
+/* Light Theme */
+.light {
+  background-color: #ffffff; 
+  color: #333333
+}
+
+.light input {
+  border: 1px solid #ddd; 
+}
+
+.light p {
+  color: #333333;
+}
+.light h2 {
+  color: #333333;
+}
+
+/* Dark Theme */
+.dark {
+  background-color: #222222; 
+  color: #ffffff; 
+}
+
+.dark input {
+  border: 1px solid #ffffff; 
+  background-color: #222222;
+}

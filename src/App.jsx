@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage/HomePage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import Notifications from "./pages/Notifications/Notifications";
+import SinglePostPage from "./pages/Newsfeed/SinglePostPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import NavbarBottom from "./components/Navbar/NavbarBottom";
@@ -29,6 +31,15 @@ function App() {
           element={
             <IsPrivate>
               <ProfilePage />
+            </IsPrivate>
+          }
+        />
+
+        <Route
+          path="/notifications/:userId"
+          element={
+            <IsPrivate>
+              <Notifications />
             </IsPrivate>
           }
         />
@@ -66,6 +77,7 @@ function App() {
           }
         />
 
+
         <Route
           path={`/chat/:userId/:chatId/messages`}
           element={
@@ -80,6 +92,15 @@ function App() {
           element={
             <IsPrivate>
               <Newsfeed />
+            </IsPrivate>
+          }
+        />
+
+        <Route
+          path="/posts/post/:postId"
+          element={
+            <IsPrivate>
+              <SinglePostPage />
             </IsPrivate>
           }
         />

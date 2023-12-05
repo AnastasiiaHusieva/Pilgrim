@@ -7,7 +7,7 @@ import {
   OverlayView,
   Marker,
 } from "@react-google-maps/api";
-import { useTheme } from "../../components/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 import "./Maps.css";
 
 const containerStyle = {
@@ -256,6 +256,8 @@ function Maps() {
   const [map, setMap] = React.useState(null);
   const { isDarkMode } = useTheme();
   const [selectedCity, setSelectedCity] = useState(null);
+  const [pointerPos, setPointerPos] = useState({x: 0, y: 0})
+ 
 
   const mapOptions = {
     styles: isDarkMode ? darkModeStyles.styles : lightModeStyles.styles,
@@ -286,6 +288,71 @@ function Maps() {
     setSelectedCity(null);
   };
 
+  const spawnBubbles = () => {
+
+    const xPos = `${parseInt(pointerPos.x)}px`
+    const yPos = `${parseInt(pointerPos.y)}px`
+
+   return  (
+
+
+
+      <>
+        {/* {selectedCity && selectedCity.id === city.id && ( */}
+        <div
+          className="bubble-menu flex flex-col items-center"
+          style={{
+            position: "absolute",
+            left: xPos,
+            top: yPos
+          }}
+        >
+          <Link
+            className="bubble-menu-item move1"
+            data-label="Hotels"
+            style={{ transform: "translateY(20px) translateX(0px)" }}
+            onClick={()=> {console.log("yay")}}
+          >
+            <img src="/hotel.png" alt="hotel" className="w-6 h-6" />
+          </Link>
+          <Link
+            className="bubble-menu-item move2"
+            data-label="Cafe"
+            style={{ transform: " translateY(-70px) translateX(60px)" }}
+            onClick={()=> {console.log("yay")}}
+          >
+            <img src="/cafe.png" alt="diet" className="w-6 h-6" />
+          </Link>
+          <Link
+            className="bubble-menu-item move3"
+            data-label="Events"
+            style={{ transform: "translateY(-185px) translateX(55px)" }}
+            onClick={()=> {console.log("yay")}}
+          >
+            <img src="/planner.png" alt="people" className="w-6 h-6" />
+          </Link>
+          <Link
+          to={`/posts/${selectedCity._id}`}
+            className="bubble-menu-item move4"
+            data-label="Feed"
+            style={{
+              transform: "translateY(-270px) translateX(0px)",
+              zIndex: "1000",
+            }}
+            onClick={()=> {console.log("yay")}}
+          >
+            <img
+              src="/publication.png"
+              alt="publication"
+              className="w-6 h-6"
+            />
+          </Link>
+        </div>
+        {/* )} */}
+      </>
+    )
+  }
+
   const calculateBubbleMenuPosition = (map, position) => {
     if (!map) {
       return { left: 0, top: 0 };
@@ -315,96 +382,76 @@ function Maps() {
   };
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={3.7}
-      options={mapOptions}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      onClick={handleMapClick}
-      style={{ zIndex: "1" }}
-    >
-      {cities.map((city) => (
-        <React.Fragment key={city.id}>
-          <Marker
-            onClick={() => {
-              handleCityClick(city);
-              console.log("dfghjklkjhbgvfcdfghj");
-            }}
-            position={city.position}
-            icon={{
-              path: window.google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-              fillColor: "#FF385C",
-              fillOpacity: 1,
-              strokeColor: "#fff",
-              strokeWeight: 1,
-              scale: 3.5,
-            }}
-          />
-          <OverlayView
-            position={city.position}
-            mapPaneName={OverlayView.OVERLAY_LAYER}
-            style={{ zIndex: 1000 }}
-          >
-            <div
+    <>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={3.7}
+        options={mapOptions}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        onClick={handleMapClick}
+        style={{ zIndex: "1" }}
+      >
+        {cities.map((city) => (
+          <React.Fragment key={city.id}>
+            <Marker
               onClick={(e) => {
-                e.stopPropagation();
+
+   
+
+
+
+                const markerImg = e.domEvent.target
+
+                //Get image position
+                var rect = markerImg.getBoundingClientRect();
+
+                setPointerPos({x: rect.left, y: rect.top})
+
+
+
                 handleCityClick(city);
               }}
-              className={`absolute transform -translate-x-1/2 px-5 py-0 rounded font-bold text-lg ${
-                isDarkMode ? "text-gray-200" : "text-gray-600"
-              }`}
-              style={{ left: "50%", transform: "translateX(-50%)" }}
+              position={city.position}
+              icon={{
+                path: window.google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                fillColor: "#FF385C",
+                fillOpacity: 1,
+                strokeColor: "#fff",
+                strokeWeight: 1,
+                scale: 3.5,
+              }}
+            />
+            <OverlayView
+              position={city.position}
+              mapPaneName={OverlayView.OVERLAY_LAYER}
+              style={{ zIndex: 1000 }}
             >
-              {city.name}
-              {selectedCity && selectedCity.id === city.id && (
-                <div
-                  className="bubble-menu flex flex-col items-center"
-                  style={calculateBubbleMenuPosition(map, city.position)}
-                >
-                  <Link
-                    className="bubble-menu-item move1"
-                    data-label="Hotels"
-                    style={{ transform: "translateY(20px) translateX(0px)" }}
-                  >
-                    <img src="/hotel.png" alt="hotel" className="w-6 h-6" />
-                  </Link>
-                  <Link
-                    className="bubble-menu-item move2"
-                    data-label="Cafe"
-                    style={{ transform: " translateY(-70px) translateX(60px)" }}
-                  >
-                    <img src="/cafe.png" alt="diet" className="w-6 h-6" />
-                  </Link>
-                  <Link
-                    className="bubble-menu-item move3"
-                    data-label="Events"
-                    style={{ transform: "translateY(-185px) translateX(55px)" }}
-                  >
-                    <img src="/planner.png" alt="people" className="w-6 h-6" />
-                  </Link>
-                  <Link
-                    className="bubble-menu-item move4"
-                    data-label="Feed"
-                    style={{
-                      transform: "translateY(-270px) translateX(0px)",
-                      zIndex: "-1000",
-                    }}
-                  >
-                    <img
-                      src="/publication.png"
-                      alt="publication"
-                      className="w-6 h-6"
-                    />
-                  </Link>
-                </div>
-              )}
-            </div>
-          </OverlayView>
-        </React.Fragment>
-      ))}
-    </GoogleMap>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCityClick(city);
+                }}
+                className={`absolute transform -translate-x-1/2 px-5 py-0 rounded font-bold text-lg ${isDarkMode ? "text-gray-200" : "text-gray-600"
+                  }`}
+                style={{ left: "50%", transform: "translateX(-50%)" }}
+              >
+                {city.name}
+
+              </div>
+            </OverlayView>
+          </React.Fragment>
+        ))}
+      </GoogleMap>
+
+      {selectedCity &&
+
+        spawnBubbles()
+
+      }
+
+    </>
   ) : (
     <></>
   );
