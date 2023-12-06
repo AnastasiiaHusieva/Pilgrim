@@ -9,8 +9,6 @@ import { ReactComponent as Notification } from "../icon/notification.svg";
 import React from "react";
 import axios from "axios";
 
-
-
 // import { Fragment } from "react";
 // import { Menu, Transition } from "@headlessui/react";
 // import { ChevronDownIcon } from "@heroicons/react/outline";
@@ -20,11 +18,11 @@ function classNames(...classes) {
 
 function NavbarBottom() {
   const [userImg, setUserImg] = useState("");
-  const [numberOfMessage, setNewNumberOfMessage] = useState(null);
+  const [numberOfMessage, setNewNumberOfMessage] = useState(0);
   const { isLoggedIn, user } = useContext(AuthContext);
-  const userId = user?._id; 
+  const userId = user?._id;
   const location = useLocation();
-  const [unreadNotifications, setUnreadNotifications] = useState(0)
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
   const [unreadLikesCount, setUnreadLikesCount] = useState(0);
   const [unreadCommentsCount, setUnreadCommentsCount] = useState(0);
   const currentPath = location.pathname;
@@ -32,10 +30,14 @@ function NavbarBottom() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/notifications/unread-notifications-count/${userId}`)
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/notifications/unread-notifications-count/${userId}`
+        );
         //setUnreadLikesCount(response.data.unreadLikesCount);
         //setUnreadCommentsCount(response.data.unreadCommentsCount);
-        setUnreadNotifications(response.data.unreadLikesCount+response.data.unreadCommentsCount)
+        setUnreadNotifications(
+          response.data.unreadLikesCount + response.data.unreadCommentsCount
+        );
       } catch (error) {
         console.error("Axios error:", error);
       }
@@ -44,10 +46,9 @@ function NavbarBottom() {
     fetchData();
     const intervalId = setInterval(fetchData, 30000);
 
-  // Clean up the interval when the component unmounts or when userId changes
-  return () => clearInterval(intervalId);
-  }, [userId])
-
+    // Clean up the interval when the component unmounts or when userId changes
+    return () => clearInterval(intervalId);
+  }, [userId]);
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -73,9 +74,20 @@ function NavbarBottom() {
         );
         const newMessage = response.data;
         console.log("this is what im logging ", newMessage);
-        if (newMessage.length !== numberOfMessage) {
-          setNewNumberOfMessage(newMessage.length);
-        }
+        const mapChatAndUnreadMessages = newMessage.map((chat) => {
+          const unreadMessagesCount = chat.messages.filter(
+            (message) => !message.isRead
+          ).length;
+          return unreadMessagesCount;
+        });
+
+        const totalUnreadMessageCount = mapChatAndUnreadMessages.reduce(
+          (acc, count) => acc + count,
+          0
+        );
+
+        console.log(totalUnreadMessageCount);
+        setNewNumberOfMessage(totalUnreadMessageCount);
       } catch (error) {
         console.log("this is the messages of the users fetch error ", error);
       }
@@ -86,8 +98,7 @@ function NavbarBottom() {
     // }, 6000);
     // return () => clearInterval(interval);
   }, [numberOfMessage]);
-  console.log(numberOfMessage);
-
+  console.log("this are the messages", numberOfMessage);
   // Subscribe to the AuthContext to gain access to
   // the values from AuthContext.Provider's `value` prop
 
@@ -97,7 +108,6 @@ function NavbarBottom() {
         {isLoggedIn ? (
           <Link to={`/notifications/${user._id}`}>
             <div className="avatar ">
-             
               <Notification
                 className=" h-10 inline-flex w-full justify-center  bg-teal-light px-3  font-semibold "
                 style={{ stroke: "black" }}
@@ -106,13 +116,15 @@ function NavbarBottom() {
                 <span className="absolute top-1 right-6 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
                   {unreadNotifications}
                 </span>
-              )} 
+              )}
             </div>
           </Link>
         ) : (
           ""
         )}
-        <Link to={isLoggedIn ? (currentPath === "/" ? "/profile" : "/") : "login"}>
+        <Link
+          to={isLoggedIn ? (currentPath === "/" ? "/profile" : "/") : "login"}
+        >
           <div className="avatar ">
             <div>
               <div className={isLoggedIn ? "w-12" : "w-25 flex  "}>

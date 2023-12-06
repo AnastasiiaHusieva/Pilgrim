@@ -14,7 +14,8 @@ function Messages() {
   const location = useLocation();
   const userParam = new URLSearchParams(location.search).get("user");
   const chatData = userParam ? JSON.parse(decodeURIComponent(userParam)) : null;
-  console.log("chat data", chatData._id);
+  // console.log("chat data", chatData._id);
+
   useEffect(() => {
     getChat();
 
@@ -32,32 +33,36 @@ function Messages() {
     });
   }, []);
 
+  console.log(chat.messages);
   const getChat = async () => {
-    const thisChat = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/inbox/messages/${chatData._id}`
-    );
-    setChat(thisChat.data);
-    setLoading(false);
+    try {
+      // Fetch chat data
+      const thisChat = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/inbox/messages/${chatData._id}`
+      );
+      setChat(thisChat.data);
+      setLoading(false);
+
+      // Fetch isRead data
+      const isRead = await axios.patch(
+        `${process.env.REACT_APP_SERVER_URL}/inbox/messages/isRead/${chatData._id}`
+      );
+      const isReadData = isRead.data;
+      console.log(isReadData);
+      // Do something with IsReadData if needed
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const { user } = useContext(AuthContext);
   const userId = user._id;
-
-  // useEffect(() => {
-  //   setIsRead(true);
-  // }, [isRead]);
 
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-
-  useEffect(() => {
-    // const setMessagesToRead = chat.messages.map((message) => {
-    //   return (message.isRead = true);
-    // });
-  }, [chat]);
 
   const sendMessage = async (e) => {
     e.preventDefault();

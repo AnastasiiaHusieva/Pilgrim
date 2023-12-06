@@ -84,7 +84,7 @@ function ProfilePage() {
   };
 
   if (!userCities) {
-    <p>Loading...</p>;
+    return <p>Loading...</p>;
   } else
     return (
       <div className="relative h-screen flex flex-col ">
@@ -160,20 +160,34 @@ function ProfilePage() {
               </div>
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto mt-40">
-            <h1 className="p-2 mt-10 ">Your activities</h1>
-            {userPost.map((post) => (
-              <>
-                <p key={post._id}>{post.city.name}</p>
+        </div>
+        <div>
+          <h1 className="text-center p-1 bg-teal-light text-black text-black">
+            YOUR ACTIVITIES
+          </h1>
+        </div>
+
+        <div className=" flex-1 overflow-y-auto  relative h-screen flex flex-col bg-white">
+          {userPost.map((post) => (
+            <>
+              <div
+                className=" text-[1.2rem] text-teal-darker border-t border-black
+                pt-5 shadow-md border-b-2 border-gray-300 pb-4"
+                key={post._id}
+              >
+                <h3>{post.city.name}</h3>
+                <p className="text-teal-dark pt-5 pb-2 ">{post.caption}</p>
                 <img src={post.photo} alt="" />
                 {post.comments.map((comment) => (
                   <>
-                    <p key={comment._id}>{comment.content}</p>
+                    <p className="p-3 text-black" key={comment._id}>
+                      {comment.content}
+                    </p>
                   </>
                 ))}
-              </>
-            ))}
-          </div>
+              </div>
+            </>
+          ))}
         </div>
       </div>
     );

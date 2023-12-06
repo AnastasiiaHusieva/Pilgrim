@@ -9,6 +9,7 @@ import { AuthContext } from "../../context/auth.context";
 function InboxPage() {
   const [chat, setNewChat] = useState([]);
   const [firstMessage, setFirstMessage] = useState([]);
+  // const [numberOfMessage, setNewNumberOfMessage] = useState(0);
 
   // const [userId, setUserId] = useState("");
 
@@ -68,7 +69,7 @@ function InboxPage() {
       return {}; // Return an empty object or handle the error as needed
     }
   };
-  console.log("AAAAAA", chat);
+
   // const promises = chat.map((singleChat) => {
   //   return axios
   //     .get(
