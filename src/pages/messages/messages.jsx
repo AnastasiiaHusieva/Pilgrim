@@ -10,6 +10,8 @@ function Messages() {
   const [textMessage, setTextMessage] = useState("");
   const [chat, setChat] = useState([]);
 
+  const [isVisible, setIsVisible] = useState(true);
+
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const userParam = new URLSearchParams(location.search).get("user");
@@ -17,21 +19,47 @@ function Messages() {
   // console.log("chat data", chatData._id);
 
   useEffect(() => {
-    getChat();
+    // Check if the Page Visibility API is supported
+    if (document.visibilityState) {
+      setIsVisible(document.visibilityState === "visible");
 
-    const pusher = new Pusher("210b1e6c2a39887244dc", {
-      cluster: "eu",
-      encrypted: true,
-    });
-    const channel = pusher.subscribe(`chat`);
-    channel.bind(`message`, (data) => {
-      console.log(chatData._id === data._id);
-      console.log("Message data: ", data);
-      if (chatData._id === data._id) {
-        setChat(data);
-      }
-    });
+      // Use the visibilitychange event to detect when the page visibility changes
+      const handleVisibilityChange = () => {
+        setIsVisible(document.visibilityState === "visible");
+      };
+
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
+      // Cleanup the event listener when the component is unmounted
+      return () => {
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+      };
+    }
   }, []);
+
+  useEffect(() => {
+    if (isVisible) {
+      // Subscribe to Pusher channel when the page is visible
+      const pusher = new Pusher("210b1e6c2a39887244dc", {
+        cluster: "eu",
+        encrypted: true,
+      });
+
+      const channel = pusher.subscribe(`chat`);
+      channel.bind(`message`, (data) => {
+        console.log(chatData._id === data._id);
+        console.log("Message data: ", data);
+        if (chatData._id === data._id) {
+          setChat(data);
+        }
+      });
+
+      // Cleanup the Pusher subscription when the component is unmounted
+      return () => {
+        pusher.unsubscribe(`chat`);
+      };
+    }
+  }, [isVisible]);
 
   console.log(chat.messages);
   const getChat = async () => {

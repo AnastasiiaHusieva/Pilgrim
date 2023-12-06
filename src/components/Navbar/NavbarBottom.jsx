@@ -93,9 +93,9 @@ function NavbarBottom() {
       }
     };
     // fetchNotifications();
-    const interval = setInterval(() => {
-      fetchNotifications();
-    }, 2000);
+     const interval = setInterval(() => {
+       fetchNotifications();
+     }, 2000);
     return () => clearInterval(interval);
   }, [numberOfMessage]);
   console.log("this are the messages", numberOfMessage);
