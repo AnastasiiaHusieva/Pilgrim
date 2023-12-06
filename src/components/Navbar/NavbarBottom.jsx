@@ -1,5 +1,5 @@
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
 // import notificationData from "../../notification.json";
@@ -8,6 +8,9 @@ import { ReactComponent as Message } from "../icon/message.svg";
 import { ReactComponent as Notification } from "../icon/notification.svg";
 import React from "react";
 import axios from "axios";
+
+
+
 // import { Fragment } from "react";
 // import { Menu, Transition } from "@headlessui/react";
 // import { ChevronDownIcon } from "@heroicons/react/outline";
@@ -19,6 +22,31 @@ function NavbarBottom() {
   const [userImg, setUserImg] = useState("");
   const [numberOfMessage, setNewNumberOfMessage] = useState(null);
   const { isLoggedIn, user } = useContext(AuthContext);
+  const userId = user?._id; 
+  const location = useLocation();
+  const [unreadNotifications, setUnreadNotifications] = useState(0)
+  const [unreadLikesCount, setUnreadLikesCount] = useState(0);
+  const [unreadCommentsCount, setUnreadCommentsCount] = useState(0);
+  const currentPath = location.pathname;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/notifications/unread-notifications-count/${userId}`)
+        //setUnreadLikesCount(response.data.unreadLikesCount);
+        //setUnreadCommentsCount(response.data.unreadCommentsCount);
+        setUnreadNotifications(response.data.unreadLikesCount+response.data.unreadCommentsCount)
+      } catch (error) {
+        console.error("Axios error:", error);
+      }
+    };
+
+    fetchData();
+    const intervalId = setInterval(fetchData, 30000);
+
+  // Clean up the interval when the component unmounts or when userId changes
+  return () => clearInterval(intervalId);
+  }, [userId])
 
 
   useEffect(() => {
@@ -34,7 +62,7 @@ function NavbarBottom() {
       }
     };
     fetchPhoto();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, currentPath]);
 
   useEffect(() => {
     // const userID = user._id;
@@ -59,6 +87,7 @@ function NavbarBottom() {
     // return () => clearInterval(interval);
   }, [numberOfMessage]);
   console.log(numberOfMessage);
+
   // Subscribe to the AuthContext to gain access to
   // the values from AuthContext.Provider's `value` prop
 
@@ -68,16 +97,22 @@ function NavbarBottom() {
         {isLoggedIn ? (
           <Link to={`/notifications/${user._id}`}>
             <div className="avatar ">
+             
               <Notification
                 className=" h-10 inline-flex w-full justify-center  bg-teal-light px-3  font-semibold "
                 style={{ stroke: "black" }}
               ></Notification>
+              {unreadNotifications > 0 && (
+                <span className="absolute top-1 right-6 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                  {unreadNotifications}
+                </span>
+              )} 
             </div>
           </Link>
         ) : (
           ""
         )}
-        <Link to={"/"}>
+        <Link to={isLoggedIn ? (currentPath === "/" ? "/profile" : "/") : "login"}>
           <div className="avatar ">
             <div>
               <div className={isLoggedIn ? "w-12" : "w-25 flex  "}>

@@ -20,12 +20,12 @@ const center = {
   lng: 10.4515,
 };
 
-const cities = [
-  { id: 1, name: "Paris", position: { lat: 48.8566, lng: 2.3522 } },
-  { id: 2, name: "Berlin", position: { lat: 52.52, lng: 13.405 } },
-  { id: 3, name: "Madrid", position: { lat: 40.4168, lng: -3.7038 } },
-  { id: 4, name: "Rome", position: { lat: 41.9028, lng: 12.4964 } },
-];
+//const cities = [
+//  { id: 1, name: "Paris", position: { lat: 48.8566, lng: 2.3522 } },
+//  { id: 2, name: "Berlin", position: { lat: 52.52, lng: 13.405 } },
+//  { id: 3, name: "Madrid", position: { lat: 40.4168, lng: -3.7038 } },
+//  { id: 4, name: "Rome", position: { lat: 41.9028, lng: 12.4964 } },
+//];
 
 const lightModeStyles = {
   styles: [
@@ -257,6 +257,7 @@ function Maps() {
   const { isDarkMode } = useTheme();
   const [selectedCity, setSelectedCity] = useState(null);
   const [pointerPos, setPointerPos] = useState({x: 0, y: 0})
+  const [cities, setCities] = useState([])
  
 
   const mapOptions = {
@@ -275,6 +276,19 @@ function Maps() {
     setMap(null);
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/cities`);
+        setCities(response.data);
+      } catch (error) {
+        console.error("Axios error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleCityClick = (city) => {
     if (selectedCity && selectedCity._id === city._id) {
       setSelectedCity(null);
@@ -287,15 +301,14 @@ function Maps() {
   const handleMapClick = () => {
     setSelectedCity(null);
   };
-
+  console.log(selectedCity)
   const spawnBubbles = () => {
 
     const xPos = `${parseInt(pointerPos.x)}px`
     const yPos = `${parseInt(pointerPos.y)}px`
+    
 
    return  (
-
-
 
       <>
         {/* {selectedCity && selectedCity.id === city.id && ( */}
@@ -331,6 +344,7 @@ function Maps() {
           >
             <img src="/planner.png" alt="people" className="w-6 h-6" />
           </Link>
+          
           <Link
           to={`/posts/${selectedCity._id}`}
             className="bubble-menu-item move4"
@@ -397,11 +411,6 @@ function Maps() {
           <React.Fragment key={city.id}>
             <Marker
               onClick={(e) => {
-
-   
-
-
-
                 const markerImg = e.domEvent.target
 
                 //Get image position

@@ -13,18 +13,20 @@ function NotificationsPage (){
     Authorization: `Bearer ${authToken}`,
   };
 
+ 
+
     useEffect(() => {
       const markAsReadOnMount = async () => {
         try {
-          const url = `${process.env.REACT_APP_SERVER_URL}/mark-notifications-as-read`;
-          const response = await axios.post(url, { userId });
+          const url = `${process.env.REACT_APP_SERVER_URL}/notifications/mark-notifications-as-read/${userId}`;
+          const response = await axios.post(url);
         } catch (error) {
           console.error('Error marking notifications as read:', error);
         }
       };
   
       markAsReadOnMount();
-    }, []);
+    }, [userId]);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -68,6 +70,7 @@ function NotificationsPage (){
           </div>
           </Link>
         ))}
+       
     </div>
   );
 };
