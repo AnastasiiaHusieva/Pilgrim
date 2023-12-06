@@ -63,7 +63,7 @@ function NavbarBottom() {
       }
     };
     fetchPhoto();
-  }, [isLoggedIn, currentPath]);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     // const userID = user._id;
@@ -92,11 +92,11 @@ function NavbarBottom() {
         console.log("this is the messages of the users fetch error ", error);
       }
     };
-    fetchNotifications();
-    // const interval = setInterval(() => {
-    //   fetchNotifications();
-    // }, 6000);
-    // return () => clearInterval(interval);
+    // fetchNotifications();
+    const interval = setInterval(() => {
+      fetchNotifications();
+    }, 2000);
+    return () => clearInterval(interval);
   }, [numberOfMessage]);
   console.log("this are the messages", numberOfMessage);
   // Subscribe to the AuthContext to gain access to
