@@ -17,9 +17,8 @@ function classNames(...classes) {
 
 function NavbarBottom() {
   const [userImg, setUserImg] = useState("");
-  const [numberOfMessage, setNewNumberOfMessage] = useState(null);
+  const [numberOfMessage, setNewNumberOfMessage] = useState(0);
   const { isLoggedIn, user } = useContext(AuthContext);
-
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -45,9 +44,20 @@ function NavbarBottom() {
         );
         const newMessage = response.data;
         console.log("this is what im logging ", newMessage);
-        if (newMessage.length !== numberOfMessage) {
-          setNewNumberOfMessage(newMessage.length);
-        }
+        const mapChatAndUnreadMessages = newMessage.map((chat) => {
+          const unreadMessagesCount = chat.messages.filter(
+            (message) => !message.isRead
+          ).length;
+          return unreadMessagesCount;
+        });
+
+        const totalUnreadMessageCount = mapChatAndUnreadMessages.reduce(
+          (acc, count) => acc + count,
+          0
+        );
+
+        console.log(totalUnreadMessageCount);
+        setNewNumberOfMessage(totalUnreadMessageCount);
       } catch (error) {
         console.log("this is the messages of the users fetch error ", error);
       }
@@ -58,7 +68,7 @@ function NavbarBottom() {
     // }, 6000);
     // return () => clearInterval(interval);
   }, [numberOfMessage]);
-  console.log(numberOfMessage);
+  console.log("this are the messages", numberOfMessage);
   // Subscribe to the AuthContext to gain access to
   // the values from AuthContext.Provider's `value` prop
 
