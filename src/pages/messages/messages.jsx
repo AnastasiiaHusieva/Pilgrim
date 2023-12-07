@@ -10,8 +10,6 @@ function Messages() {
   const [textMessage, setTextMessage] = useState("");
   const [chat, setChat] = useState([]);
 
-  const [isVisible, setIsVisible] = useState(true);
-
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const userParam = new URLSearchParams(location.search).get("user");
@@ -19,49 +17,26 @@ function Messages() {
   // console.log("chat data", chatData._id);
 
   useEffect(() => {
-    // Check if the Page Visibility API is supported
-    if (document.visibilityState) {
-      setIsVisible(document.visibilityState === "visible");
+    getChat();
 
-      // Use the visibilitychange event to detect when the page visibility changes
-      const handleVisibilityChange = () => {
-        setIsVisible(document.visibilityState === "visible");
-      };
-
-      document.addEventListener("visibilitychange", handleVisibilityChange);
-
-      // Cleanup the event listener when the component is unmounted
-      return () => {
-        document.removeEventListener("visibilitychange", handleVisibilityChange);
-      };
-    }
+    const pusher = new Pusher("210b1e6c2a39887244dc", {
+      cluster: "eu",
+      encrypted: true,
+    });
+    const channel = pusher.subscribe(`chat`);
+    channel.bind(`message`, (data) => {
+      console.log(chatData._id === data._id);
+      console.log("Message data: ", data);
+      if (chatData._id === data._id) {
+        setChat(data);
+      }
+    });
   }, []);
 
-  useEffect(() => {
-    if (isVisible) {
-      // Subscribe to Pusher channel when the page is visible
-      const pusher = new Pusher("210b1e6c2a39887244dc", {
-        cluster: "eu",
-        encrypted: true,
-      });
-
-      const channel = pusher.subscribe(`chat`);
-      channel.bind(`message`, (data) => {
-        console.log(chatData._id === data._id);
-        console.log("Message data: ", data);
-        if (chatData._id === data._id) {
-          setChat(data);
-        }
-      });
-
-      // Cleanup the Pusher subscription when the component is unmounted
-      return () => {
-        pusher.unsubscribe(`chat`);
-      };
-    }
-  }, [isVisible]);
-
   console.log(chat.messages);
+  const { user } = useContext(AuthContext);
+  const userId = user._id;
+
   const getChat = async () => {
     try {
       // Fetch chat data
@@ -71,20 +46,29 @@ function Messages() {
       setChat(thisChat.data);
       setLoading(false);
 
-      // Fetch isRead data
-      const isRead = await axios.patch(
-        `${process.env.REACT_APP_SERVER_URL}/inbox/messages/isRead/${chatData._id}`
+      console.log("USERID: ", userId);
+      console.log(
+        "SENDERID: ",
+        thisChat.data.messages[thisChat.data.messages.length - 1].senderId
       );
-      const isReadData = isRead.data;
-      console.log(isReadData);
+
+      if (
+        userId !==
+        thisChat.data.messages[thisChat.data.messages.length - 1].senderId
+      ) {
+        const isRead = await axios.patch(
+          `${process.env.REACT_APP_SERVER_URL}/inbox/messages/isRead/${chatData._id}`
+        );
+        const isReadData = isRead.data;
+        console.log(isReadData);
+      }
+
+      // Fetch isRead data
       // Do something with IsReadData if needed
     } catch (error) {
       console.log(error);
     }
   };
-
-  const { user } = useContext(AuthContext);
-  const userId = user._id;
 
   const config = {
     headers: {
@@ -110,6 +94,7 @@ function Messages() {
     } catch (error) {
       console.error("error sending message", error);
     }
+    setTextMessage("");
   };
 
   if (!chatData) {
@@ -198,6 +183,7 @@ function Messages() {
         chatId={chatData._id}
         sendMessage={sendMessage}
         setTextMessage={setTextMessage}
+        textMessage={textMessage}
       />
     </div>
   );

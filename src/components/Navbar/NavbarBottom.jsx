@@ -6,7 +6,7 @@ import { AuthContext } from "../../context/auth.context";
 // import { ReactComponent as Gear } from "../icon/arrowDown.svg";
 import { ReactComponent as Message } from "../icon/message.svg";
 import { ReactComponent as Notification } from "../icon/notification.svg";
-import { useTheme } from '../../context//ThemeContext';
+import { useTheme } from "../../context//ThemeContext";
 import React from "react";
 import axios from "axios";
 
@@ -25,8 +25,8 @@ function NavbarBottom() {
   const userId = user?._id;
   const location = useLocation();
   const [unreadNotifications, setUnreadNotifications] = useState(0);
-  const [unreadLikesCount, setUnreadLikesCount] = useState(0);
-  const [unreadCommentsCount, setUnreadCommentsCount] = useState(0);
+  // const [unreadLikesCount, setUnreadLikesCount] = useState(0);
+  // const [unreadCommentsCount, setUnreadCommentsCount] = useState(0);
   const currentPath = location.pathname;
 
   useEffect(() => {
@@ -78,15 +78,15 @@ function NavbarBottom() {
         console.log("this is what im logging ", newMessage);
         const mapChatAndUnreadMessages = newMessage.map((chat) => {
           const unreadMessagesCount = chat.messages.filter(
-            (message) => !message.isRead
+            (message) => !message.isRead && userId !== message.senderId
           ).length;
           return unreadMessagesCount;
         });
 
-       const totalUnreadMessageCount = mapChatAndUnreadMessages.reduce(
-         (acc, count) => acc + count,
-         0
-       );
+        const totalUnreadMessageCount = mapChatAndUnreadMessages.reduce(
+          (acc, count) => acc + count,
+          0
+        );
 
         console.log(totalUnreadMessageCount);
         setNewNumberOfMessage(totalUnreadMessageCount);
@@ -95,9 +95,9 @@ function NavbarBottom() {
       }
     };
     // fetchNotifications();
-     const interval = setInterval(() => {
-       fetchNotifications();
-     }, 2000);
+    const interval = setInterval(() => {
+      fetchNotifications();
+    }, 2000);
     return () => clearInterval(interval);
   }, [numberOfMessage]);
   console.log("this are the messages", numberOfMessage);
@@ -105,12 +105,22 @@ function NavbarBottom() {
   // the values from AuthContext.Provider's `value` prop
 
   return (
-    <nav className={` bottom-0 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen `}>
+    <nav
+      className={` bottom-0 ${
+        isDarkMode ? "bg-gray-300" : "bg-gray-100"
+      } xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen `}
+    >
       <div className=" flex justify-center gap-20 items-center">
         {isLoggedIn ? (
           <Link to={`/notifications/${user._id}`}>
             <div className="avatar w-10">
-              <img className={` w-full w-5 h-5 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} `}src="/imgs/notification.png" alt="" />
+              <img
+                className={` w-full w-5 h-5 ${
+                  isDarkMode ? "bg-gray-300" : "bg-gray-100"
+                } `}
+                src="/imgs/notification.png"
+                alt=""
+              />
               {/* <Notification
                 className={` h-10 inline-flex w-full justify-center  ${isDarkMode? 'bg-gray-400' : 'bg-gray-100'} px-3  font-semibold `}
                 style={{ stroke: "black" }}
@@ -134,15 +144,15 @@ function NavbarBottom() {
                 {isLoggedIn ? (
                   <div className="flex rounded-full">
                     <button className=" w-8 rounded-full">
-                     {userImg ?  <img
-                        className=" rounded-full"
-                        src={userImg}
-                        alt=""
-                      /> :  <img
-                      className=" w-5 rounded-full"
-                      src="/imgs/user.png"
-                      alt=""
-                    />}
+                      {userImg ? (
+                        <img className=" rounded-full" src={userImg} alt="" />
+                      ) : (
+                        <img
+                          className=" w-5 rounded-full"
+                          src="/imgs/user.png"
+                          alt=""
+                        />
+                      )}
                     </button>
                   </div>
                 ) : (
@@ -160,7 +170,13 @@ function NavbarBottom() {
         {isLoggedIn ? (
           <Link to={`/chat/${user._id}`}>
             <div className="avatar  w-10 ">
-              <img  className={` w-full w-5 h-5 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} `} src="/imgs/msg.png" alt="" />
+              <img
+                className={` w-full w-5 h-5 ${
+                  isDarkMode ? "bg-gray-300" : "bg-gray-100"
+                } `}
+                src="/imgs/msg.png"
+                alt=""
+              />
               {/* <Message
                 className={` h-11 inline-flex w-full justify-center  ${isDarkMode? 'bg-gray-400' : 'bg-gray-100'} px-3  font-semibold `}
                 style={{ stroke: "black" }}

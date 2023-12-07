@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
 
-function TextArea({ chatId, sendMessage, setTextMessage }) {
+function TextArea({ chatId, sendMessage, setTextMessage, textMessage }) {
   const { user } = useContext(AuthContext);
   const userId = user._id;
   // console.log("my userId", userId);
@@ -18,7 +18,7 @@ function TextArea({ chatId, sendMessage, setTextMessage }) {
         <div>
           <input
             type="text"
-            // value={sendMessage}
+            value={textMessage}
             onChange={(e) => setTextMessage(e.target.value)}
             className="input input-bordered input-warning w-full max-w-xs"
           />
