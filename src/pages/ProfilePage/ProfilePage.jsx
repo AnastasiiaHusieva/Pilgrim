@@ -18,7 +18,7 @@ function ProfilePage() {
     const fetchImage = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5005/user/${user._id}`
+          `${process.env.REACT_APP_SERVER_URL}/user/${user._id}`
         );
         const userInfo = response.data;
         setUserInfo(userInfo);
