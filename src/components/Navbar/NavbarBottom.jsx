@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/auth.context";
 // import { ReactComponent as Gear } from "../icon/arrowDown.svg";
 import { ReactComponent as Message } from "../icon/message.svg";
 import { ReactComponent as Notification } from "../icon/notification.svg";
+import { useTheme } from '../../context//ThemeContext';
 import React from "react";
 import axios from "axios";
 
@@ -17,6 +18,7 @@ function classNames(...classes) {
 }
 
 function NavbarBottom() {
+  const { isDarkMode } = useTheme();
   const [userImg, setUserImg] = useState("");
   const [numberOfMessage, setNewNumberOfMessage] = useState(0);
   const { isLoggedIn, user } = useContext(AuthContext);
@@ -81,10 +83,10 @@ function NavbarBottom() {
           return unreadMessagesCount;
         });
 
-        const totalUnreadMessageCount = mapChatAndUnreadMessages.reduce(
-          (acc, count) => acc + count,
-          0
-        );
+       const totalUnreadMessageCount = mapChatAndUnreadMessages.reduce(
+         (acc, count) => acc + count,
+         0
+       );
 
         console.log(totalUnreadMessageCount);
         setNewNumberOfMessage(totalUnreadMessageCount);
@@ -103,15 +105,16 @@ function NavbarBottom() {
   // the values from AuthContext.Provider's `value` prop
 
   return (
-    <nav className=" bottom-0 bg-teal-light xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen ">
+    <nav className={` bottom-0 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen `}>
       <div className=" flex justify-center gap-20 items-center">
         {isLoggedIn ? (
           <Link to={`/notifications/${user._id}`}>
-            <div className="avatar ">
-              <Notification
-                className=" h-10 inline-flex w-full justify-center  bg-teal-light px-3  font-semibold "
+            <div className="avatar w-10">
+              <img className={` w-full w-5 h-5 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} `}src="/imgs/notification.png" alt="" />
+              {/* <Notification
+                className={` h-10 inline-flex w-full justify-center  ${isDarkMode? 'bg-gray-400' : 'bg-gray-100'} px-3  font-semibold `}
                 style={{ stroke: "black" }}
-              ></Notification>
+              ></Notification> */}
               {unreadNotifications > 0 && (
                 <span className="absolute top-1 right-6 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
                   {unreadNotifications}
@@ -127,15 +130,19 @@ function NavbarBottom() {
         >
           <div className="avatar ">
             <div>
-              <div className={isLoggedIn ? "w-12" : "w-25 flex  "}>
+              <div className={isLoggedIn ? "w-10" : "w-25 flex  "}>
                 {isLoggedIn ? (
-                  <div className="flex">
-                    <button>
-                      <img
-                        className="  rounded-full border-2 border-black"
+                  <div className="flex rounded-full">
+                    <button className=" w-8 rounded-full">
+                     {userImg ?  <img
+                        className=" rounded-full"
                         src={userImg}
                         alt=""
-                      />{" "}
+                      /> :  <img
+                      className=" w-5 rounded-full"
+                      src="/imgs/user.png"
+                      alt=""
+                    />}
                     </button>
                   </div>
                 ) : (
@@ -152,11 +159,12 @@ function NavbarBottom() {
         </Link>
         {isLoggedIn ? (
           <Link to={`/chat/${user._id}`}>
-            <div className="avatar ">
-              <Message
-                className=" h-11 inline-flex w-full justify-center  bg-teal-light px-3  font-semibold "
+            <div className="avatar  w-10 ">
+              <img  className={` w-full w-5 h-5 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} `} src="/imgs/msg.png" alt="" />
+              {/* <Message
+                className={` h-11 inline-flex w-full justify-center  ${isDarkMode? 'bg-gray-400' : 'bg-gray-100'} px-3  font-semibold `}
                 style={{ stroke: "black" }}
-              ></Message>
+              ></Message> */}
               <p className="absolute top-1 right-6 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
                 {numberOfMessage}
               </p>

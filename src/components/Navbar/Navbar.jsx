@@ -10,26 +10,26 @@ import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
+import { useTheme } from '../../context//ThemeContext';
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 function Navbar() {
-  // Subscribe to the AuthContext to gain access to
-  // the values from AuthContext.Provider's `value` prop
   const Navigate = useNavigate();
+  const { isDarkMode } = useTheme();
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   const handlelogOutUser = () => {
     logOutUser();
     Navigate("/login");
   };
   return (
-    <nav className=" bg-teal-light xs:hidden">
+    <nav className={` bg-gray ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} xs:hidden`}>
       <div className="flex justify-between items-center pl-2 pr-2">
         <div>
           <img
-            className="p-1 w-10 h-10 rounded"
-            src="/imgs/pilgrim.jpeg"
+            className="p-1 w-12 h-12 rounded"
+            src="/imgs/logo-dark.png"
             alt=""
           />
           {/* <p className="text-peach-dark ">Pilgrim</p> */}
@@ -38,15 +38,16 @@ function Navbar() {
         <div>
           <Menu
             as="div"
-            className="relative inline-block text-left    w-14 left-[10%]"
+            className="relative inline-block m-2 w-8 left-[10%]"
           >
             <div>
-              <Menu.Button>
+              <img src="/imgs/settings.png" alt="settings icon" />
+              {/* <Menu.Button>
                 <Gear
-                  className=" inline-flex w-full justify-center  bg-teal-light px-3  font-semibold "
+                  className={` inline-flex w-full justify-center  ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} px-3  font-semibold `}
                   style={{ stroke: "black" }}
                 ></Gear>
-              </Menu.Button>
+              </Menu.Button> */}
             </div>
 
             <Transition
