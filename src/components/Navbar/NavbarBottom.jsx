@@ -72,7 +72,7 @@ function NavbarBottom() {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5005/chat/recieved/${user._id}`
+          `${process.env.REACT_APP_SERVER_URL}/chat/recieved/${user._id}`
         );
         const newMessage = response.data;
         console.log("this is what im logging ", newMessage);
@@ -101,8 +101,6 @@ function NavbarBottom() {
     return () => clearInterval(interval);
   }, [numberOfMessage]);
   console.log("this are the messages", numberOfMessage);
-  // Subscribe to the AuthContext to gain access to
-  // the values from AuthContext.Provider's `value` prop
 
   return (
     <nav
