@@ -60,7 +60,7 @@ function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-pink-600 text-white py-2 rounded-md hover:bg-pink-700 transition duration-300"
+            className="w-full bg-gradient-to-r from-teal-400 to-blue-500 text-white py-2 rounded-md hover:bg-pink-700 transition duration-300"
           >
             Login
           </button>
@@ -69,7 +69,7 @@ function LoginPage() {
         {errorMessage && <p className="text-red-500 text-sm mt-4">{errorMessage}</p>}
 
         <p className="mt-4 text-gray-600">
-          Don't have an account? <Link to="/signup" className="text-pink-600 hover:text-pink-400">Sign Up</Link>
+          Don't have an account? <Link to="/signup" className="text-blue-500 hover:text-pink-400">Sign Up</Link>
         </p>
       </div>
     </div>

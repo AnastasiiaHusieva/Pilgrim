@@ -25,8 +25,6 @@ function NavbarBottom() {
   const userId = user?._id;
   const location = useLocation();
   const [unreadNotifications, setUnreadNotifications] = useState(0);
-  const [unreadLikesCount, setUnreadLikesCount] = useState(0);
-  const [unreadCommentsCount, setUnreadCommentsCount] = useState(0);
   const currentPath = location.pathname;
 
   useEffect(() => {
@@ -72,7 +70,7 @@ function NavbarBottom() {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5005/chat/recieved/${user._id}`
+          `${process.env.REACT_APP_SERVER_URL}/chat/recieved/${user._id}`
         );
         const newMessage = response.data;
         console.log("this is what im logging ", newMessage);
@@ -101,11 +99,9 @@ function NavbarBottom() {
     return () => clearInterval(interval);
   }, [numberOfMessage]);
   console.log("this are the messages", numberOfMessage);
-  // Subscribe to the AuthContext to gain access to
-  // the values from AuthContext.Provider's `value` prop
 
   return (
-    <nav className={` bottom-0 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen `}>
+    <nav className={` bottom-0 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} md:hidden shadow-md z-50 pt-1 min-w-screen `}>
       <div className=" flex justify-center gap-20 items-center">
         {isLoggedIn ? (
           <Link to={`/notifications/${user._id}`}>
@@ -139,7 +135,7 @@ function NavbarBottom() {
                         src={userImg}
                         alt=""
                       /> :  <img
-                      className=" w-5 rounded-full"
+                      className=" w-5 "
                       src="/imgs/user.png"
                       alt=""
                     />}
