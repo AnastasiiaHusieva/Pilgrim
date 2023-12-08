@@ -25,8 +25,7 @@ function NavbarBottom() {
   const userId = user?._id;
   const location = useLocation();
   const [unreadNotifications, setUnreadNotifications] = useState(0);
-  // const [unreadLikesCount, setUnreadLikesCount] = useState(0);
-  // const [unreadCommentsCount, setUnreadCommentsCount] = useState(0);
+
   const currentPath = location.pathname;
 
   useEffect(() => {

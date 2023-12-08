@@ -96,9 +96,9 @@ function InboxPage() {
 
   // console.log("hello", chat[0].recipientId);
   return (
-    <div className="text-xs min-w-screen screen-xs">
-      <h1 className="pt-2 pb-5">INBOX</h1>
-      <ul className="w-12 text-xs ">
+    <div className="text-xs flex flex-col">
+      <h1 className="pt-2 pb-5 text-lg">INBOX</h1>
+      <div className="overflow-auto">
         {chat.map((chat, id) => (
           <Link
             to={`/chat/${user._id}/${
@@ -106,45 +106,50 @@ function InboxPage() {
             }/messages?user=${encodeURIComponent(JSON.stringify(chat))}`}
             key={chat._id}
           >
-            <li className="flex p-1 pb-4 gap-2 items-start">
+            <p className="flex p-1 pb-5  items-start ">
               {/* <img
                 className=" w-8 h-8 rounded-full "
                 src="/imgs/leo.jpg"
                 alt=""
               />{" "} */}
-              <h2 className="">
-                <strong>{chat.user}</strong>
-              </h2>
-              <div>
-                <p className="w-60 text-md">
-                  {chat.messages.length >= 0
-                    ? chat.messages[chat.messages.length - 1].text
-                    : ""}
-                  ...
-                </p>
-                <p className="font-bold">
-                  {todaysDate ===
-                  new Date(
-                    chat.messages.length >= 0 ? chat.messages[0].createdAt : ""
-                  ).toLocaleString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                  })
-                    ? todaysDate
-                    : new Date(
-                        chat.messages.length >= 0
-                          ? chat.messages[0].createdAt
-                          : ""
-                      ).toLocaleString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })}
-                </p>
+              <div className="border-b pb-4 flex justify-center items-center border-teal-darker">
+                <strong className="text-teal-light">{chat.user}</strong>
+
+                <div>
+                  <p className="w-60 text-md text-teal-normal">
+                    {chat.messages.length >= 0
+                      ? chat.messages[chat.messages.length - 1].text
+                      : ""}
+                    ...
+                  </p>
+                </div>
+                <div className=" text-teal-light">
+                  <p className="font-bold">
+                    {todaysDate ===
+                    new Date(
+                      chat.messages.length >= 0
+                        ? chat.messages[0].createdAt
+                        : ""
+                    ).toLocaleString("en-US", {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })
+                      ? todaysDate
+                      : new Date(
+                          chat.messages.length >= 0
+                            ? chat.messages[0].createdAt
+                            : ""
+                        ).toLocaleString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                        })}
+                  </p>
+                </div>
               </div>
-            </li>
+            </p>
           </Link>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
