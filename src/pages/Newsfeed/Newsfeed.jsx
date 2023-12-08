@@ -158,8 +158,8 @@ function Newsfeed() {
   return (
     <div className={`container ${isDarkMode ? 'dark' : 'light'} mx-auto my-8 px-5 rounded-lg`}>
       <div className="mb-8 p-8 ">
-        <h1 className={`text-5xl pb-4 ${isDarkMode ? 'dark' : 'light'} text-gray-100 font-bold mb-4`}>Welcome to {city.name}!</h1>
-        <div className="mb-4 relative border-b border-gray-500">
+        <h1 className={`text-3xl pb-4 ${isDarkMode ? 'dark' : 'light'} text-gray-100 font-bold mb-4`}>Welcome to {city.name}!</h1>
+        <div className="mb-4 relative">
           <form onSubmit={handleCreatePost} method="post" enctype="multipart/form-data">
             <input
               type="text"
@@ -171,12 +171,12 @@ function Newsfeed() {
               className={`input relative ${isDarkMode ? 'dark' : 'light'} rounded-2xl border-gray-300 ${isInputFocused ? 'p-20' : 'p-'
                 }  w-full pt-2 pl-2 mb-5`}
             />
-            <label
-              className={`${isInputFocused ? 'invisible' : 'visible'
-                } absolute top-2 left-3 text-gray-500 pointer-events-none`}
-            >
-              What's new?
-            </label>
+                 {caption.length === 0 && (
+              <label className={`${isInputFocused ? 'invisible' : 'visible'} absolute top-2 left-2 text-gray-500 left-3 text-gray-500 pointer-events-none transition-all duration-300`}>
+                What's new?
+              </label>
+            )}
+
             <div className="absolute top-0 right-0">
               <label
                 htmlFor="photo"
@@ -222,7 +222,9 @@ function Newsfeed() {
         {posts &&
           posts.map((post) => (
             <div key={post._id} className="mb-6 p-4 relative rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
+              <div className=" items-center mb-4">
+              
+                <Link to={`/profile/${post.user._id}`} className="flex mr-5">
                 <img
                   src={post.user.photo}
                   alt={post.user.name}
@@ -231,21 +233,25 @@ function Newsfeed() {
                 <p className="text-md text-gray-500 font-semibold">
                   {post.user.name}
                 </p>
+                </Link>
 
+                <div>
                 {editingPostId === post._id ? (
                   <>
-                    <input
+                   <div>
+                   <input
                       type="text"
                       value={editingCaption}
                       onChange={(e) => setEditingCaption(e.target.value)}
                       className={`input relative ${isDarkMode ? 'dark' : 'light'} rounded-2xl border-gray-300 p-2 w-full`}
                     />
                     <button
-                      className="absolute right-2"
+                      className="absolute right-3"
                       onClick={() => handleUpdateCaption(post._id, editingCaption)}
                     >
                       <img className="w-5" src='/imgs/pencil.png' alt="edit" />
                     </button>
+                   </div>
                   </>
                 ) : (<>
                   <button className="absolute right-10 " onClick={() => handleEditClick(post._id, post.caption)}>
@@ -265,7 +271,7 @@ function Newsfeed() {
                 </button>
               </div>
 
-            
+              </div>
               {post.photo && (
                 <img
                   src={post.photo}

@@ -133,7 +133,7 @@ function NavbarBottom() {
           ""
         )}
         <Link
-          to={isLoggedIn ? (currentPath === "/" ? "/profile" : "/") : "login"}
+          to={isLoggedIn ? (currentPath === "/" ? "/profile" : "/") : "/login"}
         >
           <div className="avatar ">
             <div>

@@ -89,7 +89,7 @@ function CommentsPage() {
 
                 <h2 className={`${isDarkMode ? 'dark' : 'light'} text-2xl text-gray-200 py-5`}>{comments.length} Comments</h2>
             </div>
-            <hr className="mb-10" />
+            <hr className="mb-10 border-t-0.5 border-gray-600 " />
             {loading && <p>Loading...</p>}
             {error && <p>{error}</p>}
 

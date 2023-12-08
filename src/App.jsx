@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage/HomePage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import UserProfilePage from "./pages/ProfilePage/UserProfilePage";
 import Notifications from "./pages/Notifications/Notifications";
 import SinglePostPage from "./pages/Newsfeed/SinglePostPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
@@ -21,17 +22,26 @@ import { useState } from "react";
 
 function App() {
   return (
-    <div className="App max-w-screen-xs mx-auto h-screen flex flex-col">
+    <div className="App max-w-screen-xs mx-auto w-screen h-screen flex flex-col">
       <Navbar />
       <div className="flex-1 overflow-y-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
 
           <Route
-            path="/profile/"
+            path="/profile"
             element={
               <IsPrivate>
                 <ProfilePage />
+              </IsPrivate>
+            }
+          />
+
+          <Route
+            path="/profile/:userId"
+            element={
+              <IsPrivate>
+                <UserProfilePage />
               </IsPrivate>
             }
           />
