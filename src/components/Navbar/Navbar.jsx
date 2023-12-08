@@ -10,7 +10,7 @@ import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import { useTheme } from '../../context//ThemeContext';
+import { useTheme } from "../../context//ThemeContext";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -29,7 +29,6 @@ function Navbar() {
     logOutUser();
     Navigate("/login");
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,10 +84,10 @@ function Navbar() {
           return unreadMessagesCount;
         });
 
-       const totalUnreadMessageCount = mapChatAndUnreadMessages.reduce(
-         (acc, count) => acc + count,
-         0
-       );
+        const totalUnreadMessageCount = mapChatAndUnreadMessages.reduce(
+          (acc, count) => acc + count,
+          0
+        );
 
         console.log(totalUnreadMessageCount);
         setNewNumberOfMessage(totalUnreadMessageCount);
@@ -97,105 +96,115 @@ function Navbar() {
       }
     };
     // fetchNotifications();
-     const interval = setInterval(() => {
-       fetchNotifications();
-     }, 2000);
-
+    const interval = setInterval(() => {
+      fetchNotifications();
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [numberOfMessage]);
   console.log("this are the messages", numberOfMessage);
   return (
-    <nav className={` bg-gray ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'}`}>
-     
+    <nav
+      className={` bg-gray ${isDarkMode ? "bg-gray-300" : "bg-gray-100"} h-15`}
+    >
       <div className="flex justify-between items-center pl-2 pr-2">
-      <Link to={`/`}>
-        <div  className="p-1 w-50 h-12">
-          <img
-            className="p-1 w-50 h-12"
-            src="/imgs/longerlogo.png"
-            alt=""
-          />
-        </div>
+        <Link to={`/`}>
+          <div className="p-1 w-50 h-12">
+            <img className="p-1 w-50 h-12" src="/imgs/longerlogo.png" alt="" />
+          </div>
         </Link>
-        <div className="hidden md:block"> 
-            <div className=" flex justify-center gap-20 items-center">
-        {isLoggedIn ? (
-          <Link to={`/notifications/${user._id}`}>
-            <div className="avatar w-10">
-              <img className={` w-full w-5 h-5 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} `}src="/imgs/notification.png" alt="" />
-              {/* <Notification
+        <div className="hidden md:block">
+          <div className=" flex justify-center gap-20 items-center">
+            {isLoggedIn ? (
+              <Link to={`/notifications/${user._id}`}>
+                <div className="avatar w-10">
+                  <img
+                    className={` w-full w-5 h-5 ${
+                      isDarkMode ? "bg-gray-300" : "bg-gray-100"
+                    } `}
+                    src="/imgs/notification.png"
+                    alt=""
+                  />
+                  {/* <Notification
                 className={` h-10 inline-flex w-full justify-center  ${isDarkMode? 'bg-gray-400' : 'bg-gray-100'} px-3  font-semibold `}
                 style={{ stroke: "black" }}
               ></Notification> */}
-              {unreadNotifications > 0 && (
-                <span className="absolute top-1 right-6 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
-                  {unreadNotifications}
-                </span>
-              )}
-            </div>
-          </Link>
-        ) : (
-          ""
-        )}
-        <Link
-          to={isLoggedIn ? (currentPath === "/" ? "/profile" : "/") : "login"}
-        >
-          <div className="avatar ">
-            <div>
-              <div className={isLoggedIn ? "w-10" : "w-25 flex  "}>
-                {isLoggedIn ? (
-                  <div className="flex rounded-full">
-                    <button className=" w-8 rounded-full">
-                     {userImg ?  <img
-                        className=" rounded-full"
-                        src={userImg}
-                        alt=""
-                      /> :  <img
-                      className=" w-5 "
-                      src="/imgs/user.png"
-                      alt=""
-                    />}
-                    </button>
+                  {unreadNotifications > 0 && (
+                    <span className="absolute top-1 right-6 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                      {unreadNotifications}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            ) : (
+              ""
+            )}
+            <Link
+              to={
+                isLoggedIn ? (currentPath === "/" ? "/profile" : "/") : "login"
+              }
+            >
+              <div className="avatar ">
+                <div>
+                  <div className={isLoggedIn ? "w-10" : "w-25 flex  "}>
+                    {isLoggedIn ? (
+                      <div className="flex rounded-full">
+                        <button className=" w-8 rounded-full">
+                          {userImg ? (
+                            <img
+                              className=" rounded-full"
+                              src={userImg}
+                              alt=""
+                            />
+                          ) : (
+                            <img
+                              className=" w-5 "
+                              src="/imgs/user.png"
+                              alt=""
+                            />
+                          )}
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center h-full pt-3">
+                        <Link to={"/login"} className="text-white">
+                          {" "}
+                          Log in !
+                        </Link>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <div className="flex items-center h-full pt-3">
-                    <Link to={"/login"} className="text-white">
-                      {" "}
-                      Log in !
-                    </Link>
-                  </div>
-                )}
+                </div>
               </div>
-            </div>
-          </div>
-        </Link>
-        {isLoggedIn ? (
-          <Link to={`/chat/${user._id}`}>
-            <div className="avatar  w-10 ">
-              <img  className={` w-full w-5 h-5 ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} `} src="/imgs/msg.png" alt="" />
-              {/* <Message
+            </Link>
+            {isLoggedIn ? (
+              <Link to={`/chat/${user._id}`}>
+                <div className="avatar  w-10 ">
+                  <img
+                    className={` w-full w-5 h-5 ${
+                      isDarkMode ? "bg-gray-300" : "bg-gray-100"
+                    } `}
+                    src="/imgs/msg.png"
+                    alt=""
+                  />
+                  {/* <Message
                 className={` h-11 inline-flex w-full justify-center  ${isDarkMode? 'bg-gray-400' : 'bg-gray-100'} px-3  font-semibold `}
                 style={{ stroke: "black" }}
               ></Message> */}
-              <p className="absolute top-1 right-6 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
-                {numberOfMessage}
-              </p>
-            </div>
-          </Link>
-        ) : (
-          ""
-        )}
-      </div>
+                  <p className="absolute top-1 right-6 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                    {numberOfMessage}
+                  </p>
+                </div>
+              </Link>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
         <div>
-          <Menu
-            as="div"
-            className="relative inline-block m-2 w-8 left-[10%]"
-          >
+          <Menu as="div" className="relative inline-block m-2 w-8 left-[10%]">
             <div>
-              
-               <Menu.Button>
+              <Menu.Button>
                 <img src="/imgs/settings.png" alt="settings icon" />
                 {/* // <Gear
                 //   className={` inline-flex w-full justify-center  ${isDarkMode? 'bg-gray-300' : 'bg-gray-100'} px-3  font-semibold `}
@@ -204,7 +213,6 @@ function Navbar() {
               </Menu.Button>
             </div>
 
-            
             <Transition
               as={Fragment}
               enter="transition ease-out duration-100"
@@ -274,8 +282,6 @@ function Navbar() {
             </Transition>
           </Menu>
         </div>
-       
-
       </div>
     </nav>
   );

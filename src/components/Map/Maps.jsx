@@ -12,7 +12,7 @@ import "./Maps.css";
 
 const containerStyle = {
   width: "100vw",
-  height: "85vh",
+  height: "calc(100vh - 110px)",
 };
 
 const center = {
@@ -256,9 +256,8 @@ function Maps() {
   const [map, setMap] = React.useState(null);
   const { isDarkMode } = useTheme();
   const [selectedCity, setSelectedCity] = useState(null);
-  const [pointerPos, setPointerPos] = useState({x: 0, y: 0})
-  const [cities, setCities] = useState([])
- 
+  const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
+  const [cities, setCities] = useState([]);
 
   const mapOptions = {
     styles: isDarkMode ? darkModeStyles.styles : lightModeStyles.styles,
@@ -279,7 +278,9 @@ function Maps() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/cities`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/cities`
+        );
         setCities(response.data);
       } catch (error) {
         console.error("Axios error:", error);
@@ -301,15 +302,12 @@ function Maps() {
   const handleMapClick = () => {
     setSelectedCity(null);
   };
-  console.log(selectedCity)
+  console.log(selectedCity);
   const spawnBubbles = () => {
+    const xPos = `${parseInt(pointerPos.x)}px`;
+    const yPos = `${parseInt(pointerPos.y)}px`;
 
-    const xPos = `${parseInt(pointerPos.x)}px`
-    const yPos = `${parseInt(pointerPos.y)}px`
-    
-
-   return  (
-
+    return (
       <>
         {/* {selectedCity && selectedCity.id === city.id && ( */}
         <div
@@ -317,55 +315,68 @@ function Maps() {
           style={{
             position: "absolute",
             left: xPos,
-            top: yPos
+            top: yPos,
           }}
         >
           <Link
+            to="https://www.booking.com/index.en-gb.html?label=gen173nr-1BCAEoggI46AdIM1gEaDuIAQGYAQm4AQfIAQzYAQHoAQGIAgGoAgO4At6fyasGwAIB0gIkNDQ2ZDM0ZWQtMmVhMy00MWJiLTkyYTQtMzAxZDRlMDNmMDhh2AIF4AIB&sid=69b19a68363e63e898186d944ac51cc0&keep_landing=1&sb_price_type=total&"
+            target="_blank" // Add this line to open the link in a new tab
+            rel="noopener noreferrer"
             className="bubble-menu-item move1"
             data-label="Hotels"
             style={{ transform: "translateY(20px) translateX(0px)" }}
-            onClick={()=> {console.log("yay")}}
+            onClick={() => {
+              console.log("yay");
+            }}
           >
             <img src="/hotel.png" alt="hotel" className="w-6 h-6" />
           </Link>
           <Link
+            to="https://www.tripadvisor.com/Restaurants-g4-Europe.html"
+            target="_blank" // Add this line to open the link in a new tab
+            rel="noopener noreferrer"
             className="bubble-menu-item move2"
             data-label="Cafe"
             style={{ transform: " translateY(-70px) translateX(60px)" }}
-            onClick={()=> {console.log("yay")}}
+            onClick={() => {
+              console.log("yay");
+            }}
           >
             <img src="/cafe.png" alt="diet" className="w-6 h-6" />
           </Link>
           <Link
+            to="https://visiteurope.com/en/events/"
+            target="_blank" // Add this line to open the link in a new tab
+            rel="noopener noreferrer"
             className="bubble-menu-item move3"
             data-label="Events"
             style={{ transform: "translateY(-185px) translateX(55px)" }}
-            onClick={()=> {console.log("yay")}}
+            onClick={() => {
+              console.log("yay");
+            }}
           >
             <img src="/planner.png" alt="people" className="w-6 h-6" />
           </Link>
-          
+
           <Link
-          to={`/posts/${selectedCity._id}`}
+            to={`/posts/${selectedCity._id}`}
             className="bubble-menu-item move4"
             data-label="Feed"
             style={{
               transform: "translateY(-270px) translateX(0px)",
               zIndex: "1000",
             }}
-            onClick={()=> {console.log("yay")}}
+            onClick={() => {
+              console.log("yay");
+            }}
           >
-            <img
-              src="/publication.png"
-              alt="publication"
-              className="w-6 h-6"
-            />
+            <img src="/publication.png" alt="publication" className="w-6 h-6" />
           </Link>
         </div>
         {/* )} */}
       </>
-    )
-  }
+    );
+  };
 
   const calculateBubbleMenuPosition = (map, position) => {
     if (!map) {
@@ -411,14 +422,12 @@ function Maps() {
           <React.Fragment key={city.id}>
             <Marker
               onClick={(e) => {
-                const markerImg = e.domEvent.target
+                const markerImg = e.domEvent.target;
 
                 //Get image position
                 var rect = markerImg.getBoundingClientRect();
 
-                setPointerPos({x: rect.left, y: rect.top})
-
-
+                setPointerPos({ x: rect.left, y: rect.top });
 
                 handleCityClick(city);
               }}
@@ -442,24 +451,19 @@ function Maps() {
                   e.stopPropagation();
                   handleCityClick(city);
                 }}
-                className={`absolute transform -translate-x-1/2 px-5 py-0 rounded font-bold text-lg ${isDarkMode ? "text-gray-200" : "text-gray-600"
-                  }`}
+                className={`absolute transform -translate-x-1/2 px-5 py-0 rounded font-bold text-lg ${
+                  isDarkMode ? "text-gray-200" : "text-gray-600"
+                }`}
                 style={{ left: "50%", transform: "translateX(-50%)" }}
               >
                 {city.name}
-
               </div>
             </OverlayView>
           </React.Fragment>
         ))}
       </GoogleMap>
 
-      {selectedCity &&
-
-        spawnBubbles()
-
-      }
-
+      {selectedCity && spawnBubbles()}
     </>
   ) : (
     <></>

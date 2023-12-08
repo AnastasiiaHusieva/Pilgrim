@@ -21,108 +21,108 @@ import { useState } from "react";
 
 function App() {
   return (
-    <div className="App max-w-screen-xs mx-auto h-screen">
+    <div className="App max-w-screen-xs mx-auto h-screen flex flex-col">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+      <div className="flex-1 overflow-y-auto">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
 
-        <Route
-          path="/profile/"
-          element={
-            <IsPrivate>
-              <ProfilePage />
-            </IsPrivate>
-          }
-        />
+          <Route
+            path="/profile/"
+            element={
+              <IsPrivate>
+                <ProfilePage />
+              </IsPrivate>
+            }
+          />
 
-        <Route
-          path="/notifications/:userId"
-          element={
-            <IsPrivate>
-              <Notifications />
-            </IsPrivate>
-          }
-        />
+          <Route
+            path="/notifications/:userId"
+            element={
+              <IsPrivate>
+                <Notifications />
+              </IsPrivate>
+            }
+          />
 
-        <Route
-          path="/signup"
-          element={
-            <IsAnon>
-              <SignupPage />
-            </IsAnon>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <IsAnon>
-              <LoginPage />
-            </IsAnon>
-          }
-        />
-        <Route
-          path="/chat/:currentUserId"
-          element={
-            <IsPrivate>
-              <InboxPage />
-            </IsPrivate>
-          }
-        />
-        <Route
-          path={`/chat/:userId/:chatId/messages`}
-          element={
-            <IsPrivate>
-              <Messages />
-            </IsPrivate>
-          }
-        />
+          <Route
+            path="/signup"
+            element={
+              <IsAnon>
+                <SignupPage />
+              </IsAnon>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <IsAnon>
+                <LoginPage />
+              </IsAnon>
+            }
+          />
+          <Route
+            path="/chat/:currentUserId"
+            element={
+              <IsPrivate>
+                <InboxPage />
+              </IsPrivate>
+            }
+          />
+          <Route
+            path={`/chat/:userId/:chatId/messages`}
+            element={
+              <IsPrivate>
+                <Messages />
+              </IsPrivate>
+            }
+          />
 
+          <Route
+            path={`/chat/:userId/:chatId/messages`}
+            element={
+              <IsPrivate>
+                <Messages />
+              </IsPrivate>
+            }
+          />
 
-        <Route
-          path={`/chat/:userId/:chatId/messages`}
-          element={
-            <IsPrivate>
-              <Messages />
-            </IsPrivate>
-          }
-        />
+          <Route
+            path="/posts/:cityId"
+            element={
+              <IsPrivate>
+                <Newsfeed />
+              </IsPrivate>
+            }
+          />
 
-        <Route
-          path="/posts/:cityId"
-          element={
-            <IsPrivate>
-              <Newsfeed />
-            </IsPrivate>
-          }
-        />
+          <Route
+            path="/posts/post/:postId"
+            element={
+              <IsPrivate>
+                <SinglePostPage />
+              </IsPrivate>
+            }
+          />
 
-        <Route
-          path="/posts/post/:postId"
-          element={
-            <IsPrivate>
-              <SinglePostPage />
-            </IsPrivate>
-          }
-        />
-
-        <Route
-          path="/likes/:postId"
-          element={
-            <IsPrivate>
-              <LikesPage />
-            </IsPrivate>
-          }
-        />
-        <Route
-          path="/comments/:postId"
-          element={
-            <IsPrivate>
-              <CommentsPage />
-            </IsPrivate>
-          }
-        />
-      </Routes>
-
+          <Route
+            path="/likes/:postId"
+            element={
+              <IsPrivate>
+                <LikesPage />
+              </IsPrivate>
+            }
+          />
+          <Route
+            path="/comments/:postId"
+            element={
+              <IsPrivate>
+                <CommentsPage />
+              </IsPrivate>
+            }
+          />
+        </Routes>
+      </div>
       <NavbarBottom />
     </div>
   );

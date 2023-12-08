@@ -105,7 +105,7 @@ function NavbarBottom() {
     <nav
       className={` bottom-0 ${
         isDarkMode ? "bg-gray-300" : "bg-gray-100"
-      } xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen `}
+      } xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen h-15`}
     >
       <div className=" flex justify-center gap-20 items-center">
         {isLoggedIn ? (

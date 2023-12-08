@@ -1,17 +1,16 @@
 .App {
   text-align: center;
   min-width: fit-content;
-  min-height: 100%;
 }
 
 /* Light Theme */
 .light {
-  background-color: #ffffff; 
-  color: #333333
+  background-color: #ffffff;
+  color: #333333;
 }
 
 .light input {
-  border: 1px solid #ddd; 
+  border: 1px solid #ddd;
 }
 
 .light p {
@@ -23,11 +22,11 @@
 
 /* Dark Theme */
 .dark {
-  background-color: #222222; 
-  color: #ffffff; 
+  background-color: #222222;
+  color: #ffffff;
 }
 
 .dark input {
-  border: 1px solid #ffffff; 
+  border: 1px solid #ffffff;
   background-color: #222222;
 }
