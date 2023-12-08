@@ -90,7 +90,7 @@ function NotificationsPage() {
                   <p className="md:hidden inline">{`${notification.content}`}</p>
                 </div>
               )}
-              <img className="w-10" src={notification.post.photo} alt="post photo" />
+              <img className="w-10 h-10" src={notification.post.photo} alt="post photo" />
             </div>
           </Link>
         ))}
