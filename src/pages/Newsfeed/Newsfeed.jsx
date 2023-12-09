@@ -142,7 +142,7 @@ function Newsfeed() {
         method: "DELETE",
         headers,
       });
-  
+
       if (response.ok) {
         console.log("Post deleted successfully");
         setPostCount((prevCount) => prevCount - 1);
@@ -154,11 +154,22 @@ function Newsfeed() {
       console.error("Error:", error);
     }
   };
-  
+
   return (
-    <div className={`container ${isDarkMode ? 'dark' : 'light'} mx-auto my-8 px-5 rounded-lg`}>
-      <div className="mb-8 p-8 ">
-        <h1 className={`text-3xl pb-4 ${isDarkMode ? 'dark' : 'light'} text-gray-100 font-bold mb-4`}>Welcome to {city.name}!</h1>
+    <div className={` ${isDarkMode ? 'dark' : 'light'} w-100 mx-5 mt-10 flex flex-col `}>
+      <div className="mb-8 px-8">
+        <div className="flex flex-col items-center justify-center mb-8">
+          <h1 className={`text-4xl pb-4 ${isDarkMode ? 'dark' : 'light'} text-gray-100 font-bold mb-4`}>Welcome to {city.name}! </h1>
+          <img
+            className="city-img w-20 h-20"
+            src={city.name === "Berlin" ? "/brandenburg-gate.png" :
+              city.name === "Paris" ? "/eiffel-tower.png" :
+                city.name === "Madrid" ? "/royal-palace.png" :
+                  city.name === "Rome" ? "/colosseum.png" : "/default-image.png"}
+            alt={city.name}
+          />
+
+        </div>
         <div className="mb-4 relative">
           <form onSubmit={handleCreatePost} method="post" enctype="multipart/form-data">
             <input
@@ -167,11 +178,11 @@ function Newsfeed() {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               onChange={(e) => handleCaptionChange(e)}
-             // onChange={(e) => setCaption(e.target.value)}
+              // onChange={(e) => setCaption(e.target.value)}
               className={`input relative ${isDarkMode ? 'dark' : 'light'} rounded-2xl border-gray-300 ${isInputFocused ? 'p-20' : 'p-'
                 }  w-full pt-2 pl-2 mb-5`}
             />
-                 {caption.length === 0 && (
+            {caption.length === 0 && (
               <label className={`${isInputFocused ? 'invisible' : 'visible'} absolute top-2 left-2 text-gray-500 left-3 text-gray-500 pointer-events-none transition-all duration-300`}>
                 What's new?
               </label>
@@ -205,88 +216,75 @@ function Newsfeed() {
           </form>
         </div>
       </div>
-      {/*
-       <div className="mb-4">
-         <label className="block text-sm font-medium text-gray-600">
-           Photo URL:
-         </label>
-         <input
-           type="text"
-           value={photo}
-           onChange={(e) => setPhoto(e.target.value)}
-           className="mt-1 p-2 w-full border rounded-md bg-gray-200"
-         />
-       </div>
-*/}
-      <div className="h-screen flex flex-col flex-1 overflow-y-auto">
+  
+      <div className="flex flex-col overflow-y-auto">
         {posts &&
           posts.map((post) => (
             <div key={post._id} className="mb-6 p-4 relative rounded-lg shadow-md">
-              <div className=" items-center mb-4">
-              
+              <div className="mb-4">
+
                 <Link to={`/profile/${post.user._id}`} className="flex mr-5">
-                <img
-                  src={post.user.photo}
-                  alt={post.user.name}
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-                <p className="text-md text-gray-500 font-semibold">
-                  {post.user.name}
-                </p>
+                  <img
+                    src={post.user.photo}
+                    alt={post.user.name}
+                    className="w-8 h-8 rounded-full mr-2"
+                  />
+                  <p className="text-md text-gray-500 font-semibold">
+                    {post.user.name}
+                  </p>
                 </Link>
 
                 <div>
-                {editingPostId === post._id ? (
-                  <>
-                   <div>
-                   <input
-                      type="text"
-                      value={editingCaption}
-                      onChange={(e) => setEditingCaption(e.target.value)}
-                      className={`input relative ${isDarkMode ? 'dark' : 'light'} rounded-2xl border-gray-300 p-2 w-full`}
-                    />
-                    <button
-                      className="absolute right-3"
-                      onClick={() => handleUpdateCaption(post._id, editingCaption)}
-                    >
-                      <img className="w-5" src='/imgs/pencil.png' alt="edit" />
-                    </button>
-                   </div>
-                  </>
-                ) : (<>
-                  <button className="absolute right-10 " onClick={() => handleEditClick(post._id, post.caption)}>
-                    <img className="w-5" src='/imgs/pencil.png' alt="edit" />
-                  </button>
-                  <p className="text-md text-gray-200 mb-2">{post.caption}</p>
-                </>)}
-              </div>
-
-
-              <div>
-                <button
-                  className="absolute right-4"
-                  onClick={() => handleDeletePost(post._id)}
-                >
-                  <img className="w-5" src='/imgs/delete.png' alt="delete" />
-                </button>
-              </div>
-
-              </div>
-              {post.photo && (
-                <img
-                  src={post.photo}
-                  alt={`${post.user.name}'s post`}
-                  className="mb-2 rounded-lg w-full"
-                />
+                  {editingPostId === post._id ? (
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={editingCaption}
+                        onChange={(e) => setEditingCaption(e.target.value)}
+                        className={`input ${isDarkMode ? 'dark' : 'light'} rounded-2xl border-gray-300 p-2 w-full pr-10`}
+                      />
+                      <button
+                        className="absolute right-3 top-3"
+                        onClick={() => handleUpdateCaption(post._id, editingCaption)}
+                      >
+                        <img className="w-5" src='/imgs/pencil.png' alt="edit" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col">
+                      {post.user._id === userId && (
+                        <button className="absolute right-10 top-1" onClick={() => handleEditClick(post._id, post.caption)}>
+                          <img className="w-5" src='/imgs/pencil.png' alt="edit" />
+                        </button>
+                      )}
+                      <p className="text-md text-gray-200 w-5/6  mx-10 mb-2">{post.caption}</p>
+                      {post.user._id === userId && (
+                        <button className="absolute right-4 top-1" onClick={() => handleDeletePost(post._id)}>
+                          <img className="w-5" src='/imgs/delete.png' alt="delete" />
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+                {post.photo && (
+                <div className="flex justify-center">
+                  <img
+                    src={post.photo}
+                    alt={`${post.user.name}'s post`}
+                    className="mb-2 px-20"
+                  />
+                </div>
               )
-            }
-            < div className = "flex items-center justify-between" >
+              }
+              </div >
+             
+              < div className="flex items-center justify-between" >
                 <div className="flex items-center space-x-4">
                   <Link
                     to={`/likes/${post._id}`}
                     className="text-gray-100 hover:underline"
                   >
-                   <p>{post.likes && post.likes.length}</p> 
+                    <p>{post.likes && post.likes.length}</p>
                   </Link>
                   <button
                     onClick={() => handleLikeClick(post._id)}
@@ -306,9 +304,9 @@ function Newsfeed() {
                 </Link>
 
               </div>
-    </div>
-  ))
-}
+            </div>
+          ))
+        }
       </div >
     </div >
   );

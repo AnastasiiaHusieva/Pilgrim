@@ -52,7 +52,7 @@ function NotificationsPage() {
 
 
   return (
-    <div>
+    <div className="w-screen">
       <div className="flex items-center justify-center mx-5 my-5 ">
         <div className="flex items-center">
           <button onClick={() => navigate(-1)} className="cursor-pointer">

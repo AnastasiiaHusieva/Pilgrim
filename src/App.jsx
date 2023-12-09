@@ -23,8 +23,8 @@ import { useState } from "react";
 function App() {
   return (
     <div className="App max-w-screen-xs mx-auto w-screen h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-1 overflow-y-auto">
+      <Navbar className="w-screen" />
+      <div className="w-screen overflow-y-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
 
