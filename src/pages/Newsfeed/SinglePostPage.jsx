@@ -63,7 +63,7 @@ function SinglePostPage() {
         return <p>Error loading post. Please try again later.</p>;
     }
     return (
-        <div className={` ${isDarkMode ? 'dark' : 'light'} w-100 mx-5 mt-10 flex flex-col `}>
+        <div className={` ${isDarkMode ? 'dark' : 'light'} w-100 mx-5 mt-10 flex flex-col h-screen `}>
             <button onClick={() => navigate(-1)} className="cursor-pointer">
                 {isDarkMode ? <img className="w-5" src="/imgs/backlight.png" alt="arrow back" /> : <img className="w-5" src="/imgs/back.png" alt="arrow back" />}
             </button>
