@@ -65,7 +65,7 @@ console.log(userPar)
   return (
     <div className={`${isDarkMode ? "dark" : "light" } h-screen flex flex-col`}>
       <div className="text-white flex flex-col items-start p-2">
-        <div className="w-16 h-16 flex my-5 mx-10 justify-start items-center gap-3 pt-3 pb-2">
+        <div className="w-16 h-16 flex my-5 mx-10 justify-start items-center font-bold text-xl gap-3 pt-3 pb-2">
           {userPar.photo ? (
             <img
               className="w-18 h-18 object-cover rounded-full border-2 border-gray-200"

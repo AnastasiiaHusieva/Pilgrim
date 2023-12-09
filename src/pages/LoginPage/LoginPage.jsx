@@ -42,7 +42,7 @@ function LoginPage() {
         <form onSubmit={handleLoginSubmit}>
           <div className="input-group mb-4 column">
             <input type="email" className="input-style" name="email" value={email} onChange={handleEmail} />
-            <label className="label">Email:</label>
+            <label className="label ${isDarkMode ? 'bg-gray-800' : 'bg-white'} `el">Email:</label>
           </div>
 
           <div className="input-group mb-4 column">
@@ -55,7 +55,7 @@ function LoginPage() {
                 className="input-style relative"
               />
             </div>
-            <label className="label">Password:</label>
+            <label className="label ${isDarkMode ? 'bg-gray-800' : 'bg-white'} `">Password:</label>
           </div>
 
           <button

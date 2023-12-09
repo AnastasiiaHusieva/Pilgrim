@@ -64,7 +64,7 @@ function SignupPage() {
         <form onSubmit={handleSignupSubmit}>
           <div className="input-group mb-4 column">
             <input type="text" className="input-style" name="name" value={name} onChange={handleName} />
-            <label className="label">Name:</label>
+            <label className={`label ${isDarkMode ? 'bg-gray-800' : 'bg-white'} `}>Name:</label>
           </div>
 
           <div className="input-group mb-4 column">
@@ -108,7 +108,7 @@ function SignupPage() {
 
           <button
             type="submit"
-            className="w-full bg-pink-600 text-white py-2 rounded-md hover:bg-pink-700 transition duration-300"
+            className="w-full bg-gradient-to-r from-teal-400 to-blue-500 text-white py-2 rounded-md hover:bg-pink-700 transition duration-300"
           >
             Sign Up
           </button>
@@ -118,7 +118,7 @@ function SignupPage() {
 
         <p className="mt-4 text-gray-600">
           Already have an account?{' '}
-          <Link to="/login" className="text-pink-600 hover:text-pink-400">
+          <Link to="/login" className="text-blue-600 hover:text-blue-400">
             Login
           </Link>
         </p>
