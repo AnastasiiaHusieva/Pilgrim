@@ -24,7 +24,7 @@ function TextArea({ chatId, sendMessage, setTextMessage, textMessage }) {
           />
         </div>
         <div className="self-center justify-self-center ">
-          <button className=" btn btn-xs btn-accent ">Send</button>
+          <button className=" btn btn-xs btn-accent text-lg border-none h-10 w-20 rounded-3xl bg-gradient-to-r from-teal-400 to-blue-500 transform transition-transform hover:scale-105">Send</button>
         </div>
       </form>
     </div>

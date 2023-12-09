@@ -17,12 +17,13 @@ import Newsfeed from "./pages/Newsfeed/Newsfeed";
 import LikesPage from "./components/Likes/LikesPage";
 import CommentsPage from "./components/Comments/CommentsPage";
 import Messages from "./pages/messages/messages";
-
-import { useState } from "react";
+import { useTheme } from './context/ThemeContext';
+import { useState, useContext } from "react";
 
 function App() {
+  const { isDarkMode } = useTheme();
   return (
-    <div className="App max-w-screen-xs mx-auto w-screen h-screen flex flex-col">
+    <div className={`App max-w-screen-xs mx-auto w-screen h-screen flex flex-col ${isDarkMode ? "dark" : "light"}`}>
       <Navbar className="w-screen" />
       <div className="w-screen overflow-y-auto">
         <Routes>
@@ -79,15 +80,6 @@ function App() {
               </IsPrivate>
             }
           />
-          <Route
-            path={`/chat/:userId/:chatId/messages`}
-            element={
-              <IsPrivate>
-                <Messages />
-              </IsPrivate>
-            }
-          />
-
           <Route
             path={`/chat/:userId/:chatId/messages`}
             element={

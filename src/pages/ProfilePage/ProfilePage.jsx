@@ -1,10 +1,16 @@
 import "./ProfilePage.css";
-import { useContext, useState, useEffect, useReducer } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/auth.context";
+import { useTheme } from '../../context/ThemeContext';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
+
+
 function ProfilePage() {
   const [userImg, setUserImg] = useState("");
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState("");
+  const { isDarkMode } = useTheme();
   const [userCities, setUsercities] = useState("");
   const [userPost, setUserPost] = useState("");
   const { user } = useContext(AuthContext);
@@ -48,74 +54,64 @@ function ProfilePage() {
     };
     fetchImage();
   }, []);
-  console.log(userImg);
-  console.log("thisis the user info", userInfo);
-  console.log(userCities);
-  console.log("thiiissssssss", userPost);
+
 
   const handleImageChange = (e) => {
-    console.log("image changed");
+
     const file = e.target.files[0];
 
-    // You can update the state to store the selected image
+
     setUserImg(URL.createObjectURL(file));
     handleSubmit(file);
   };
 
   const handleSubmit = async (file) => {
-    console.log("form submitted");
-    // file.preventDefault();
+
     try {
       const formData = new FormData();
       formData.append("photo", file);
 
-      // Assuming you have an endpoint for updating the user's profile image
-      console.log("11");
       const savePhoto = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/user/update-profile-image/${user._id}`,
         formData,
 
         { headers }
       );
-      console.log("fuckign photo", savePhoto);
     } catch (error) {
       console.log(error);
     }
   };
-
+  console.log(userPost)
   if (!userCities) {
     return <p>Loading...</p>;
   } else
     return (
-      <div className="relative h-screen flex flex-col ">
-        <img
+      <div className={` h-screen flex flex-col ${isDarkMode ? "dark" : "light"}`}>
+        {/* <img
           className="w-screen"
           src="/imgs/profileBackground/Fly-Around-the-World.jpg"
           alt=""
         />
-        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40"></div>
-        <div className="absolute text-white inset-0 flex column top-2 justify-start items-start p-2">
-          <h1 className="justify-self-center">Profile</h1>
-          <div className="w-16 flex justify-start items-center gap-3 pt-3 pb-2">
+        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40"></div> */}
+        <div className=" text-white inset-0 flex flex-col top-2 justify-start items-start p-2">
+          <button onClick={() => navigate(-1)} className="cursor-pointer mt-5">
+            {isDarkMode ? <img className="w-5" src="/imgs/backlight.png" alt="arrow back" /> : <img className="w-5" src="/imgs/back.png" alt="arrow back" />}
+          </button>
+          <div className="w-16 h-16 flex my-5 mx-10 justify-start items-center gap-3 pt-3 pb-2">
             {userImg !== undefined ? (
               <img
-                className="w-18 h-18 object-cover  rounded-full border-2 border-black"
+                className="w-18 h-18 object-cover rounded-full border-2 border-black"
                 src={userImg}
                 alt=""
               />
             ) : (
-              <div className="top-12 ">
+              <div className="top-12">
                 <form
                   onSubmit={handleSubmit}
                   method="post"
                   encType="multipart/form-data"
                 >
-                  {/* Wrap the label around the image */}
-                  <label
-                    htmlFor="photo"
-                    className=" cursor-pointer left-12 top-10 "
-                  >
-                    {/* The input for selecting a file */}
+                  <label htmlFor="photo" className="cursor-pointer">
                     <input
                       type="file"
                       id="photo"
@@ -123,8 +119,6 @@ function ProfilePage() {
                       className="hidden"
                       onChange={handleImageChange}
                     />
-
-                    {/* Show the selected image or a default image */}
                     <div className="w-16 h-16 overflow-hidden rounded-full border-2 border-white">
                       <img
                         src="/imgs/plus.png"
@@ -136,61 +130,69 @@ function ProfilePage() {
                 </form>
               </div>
             )}
-            <strong>{userInfo.name} </strong>
+            <h1 className="ml-4 text-xl font-bold">{userInfo.name}</h1>
           </div>
+        
 
-          <div>
-            <div>
-              <div className="flex column items-start ">
-                <p>{userInfo.email}</p>
-                {userCities.length < 4 ? (
-                  <>
-                    <p>Cities Visited:</p>
-                    {userCities.map((city) => (
-                      <>
-                        <p className="flex column items-start">{city}</p>
-                      </>
-                    ))}
-                  </>
-                ) : (
-                  <p>
-                    <strong> Cities Visited {userCities.length} </strong>
-                  </p>
-                )}
+
+          {userCities.length < 4 ? (
+            <div className="flex gap-8 mx-10 items-center justify-center">
+              <p className="font-bold">Cities Visited:</p>
+              {userCities.map((city) => (
+                <p className="flex flex-col items-center" key={city}>
+                  {city}
+                  <img
+                    className="city-img-1 w- h-8"
+                    src={
+                      city === "Berlin"
+                        ? "/brandenburg-gate.png"
+                        : city === "Paris"
+                          ? "/eiffel-tower.png"
+                          : city === "Madrid"
+                            ? "/royal-palace.png"
+                            : city === "Rome"
+                              ? "/colosseum.png"
+                              : "/default-image.png"
+                    }
+                    alt={city.name}
+                  />
+                </p>
+              ))}
+            </div>
+          ) : (
+            <p>
+              <strong>Cities Visited {userCities.length}</strong>
+            </p>
+          )}
+
+        </div>
+        {/* <div>
+          <h1 className="text-center text-3xl p-1 font-bold mt-5">
+            Your Posts
+          </h1>
+        </div> */}
+
+        <div className="flex-1 overflow-y-auto relative h-screen flex flex-col">
+          {userCities.map((city) => (
+            <div key={city} className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">{city}</h2>
+              <div className="mx-10 flex gap-5 flex-wrap shadow-lg">
+                {userPost
+                  .filter((post) => post.city.name === city)
+                  .map((filteredPost) => (
+                    <Link to={`/posts/post/${filteredPost._id}`}>
+                      <div className="w-20 m-10">
+                        <img src={filteredPost.photo} alt="" />
+                      </div>
+                    </Link>
+                  ))}
               </div>
             </div>
-          </div>
-        </div>
-        <div>
-          <h1 className="text-center p-1 bg-teal-light text-black text-black">
-            YOUR ACTIVITIES
-          </h1>
-        </div>
-
-        <div className=" flex-1 overflow-y-auto  relative h-screen flex flex-col bg-white">
-          {userPost.map((post) => (
-            <>
-              <div
-                className=" text-[1.2rem] text-teal-darker border-t border-black
-                pt-5 shadow-md border-b-2 border-gray-300 pb-4"
-                key={post._id}
-              >
-                <h3>{post.city.name}</h3>
-                <p className="text-teal-dark pt-5 pb-2 ">{post.caption}</p>
-                <img src={post.photo} alt="" />
-                {post.comments.map((comment) => (
-                  <>
-                    <p className="p-3 text-black" key={comment._id}>
-                      {comment.content}
-                    </p>
-                  </>
-                ))}
-              </div>
-            </>
           ))}
         </div>
       </div>
     );
 }
+
 
 export default ProfilePage;

@@ -58,9 +58,9 @@ function NavbarBottom() {
           `${process.env.REACT_APP_SERVER_URL}/user/${user._id}`
         );
         setUserImg(getPhoto.data.photo);
-        console.log(userImg);
+     
       } catch (err) {
-        console.log("this is the image fetching axios fetch", err);
+        console.error("this is the image fetching axios fetch", err);
       }
     };
     fetchPhoto();
@@ -74,7 +74,7 @@ function NavbarBottom() {
           `${process.env.REACT_APP_SERVER_URL}/chat/recieved/${user._id}`
         );
         const newMessage = response.data;
-        console.log("this is what im logging ", newMessage);
+       
         const mapChatAndUnreadMessages = newMessage.map((chat) => {
           const unreadMessagesCount = chat.messages.filter(
             (message) => !message.isRead && userId !== message.senderId
@@ -87,25 +87,25 @@ function NavbarBottom() {
           0
         );
 
-        console.log(totalUnreadMessageCount);
+       
         setNewNumberOfMessage(totalUnreadMessageCount);
       } catch (error) {
-        console.log("this is the messages of the users fetch error ", error);
+        console.error("this is the messages of the users fetch error ", error);
       }
     };
     // fetchNotifications();
     const interval = setInterval(() => {
       fetchNotifications();
-    }, 2000);
+    }, 20000);
     return () => clearInterval(interval);
   }, [numberOfMessage]);
-  console.log("this are the messages", numberOfMessage);
+
 
   return (
     <nav
       className={` bottom-0 ${
         isDarkMode ? "bg-gray-300" : "bg-gray-100"
-      } xs:hidden z-50 border-t-black  border-t-2 pt-1 min-w-screen h-15`}
+      } xs:hidden z-50 pt-1 min-w-screen h-15`}
     >
       <div className=" flex justify-center gap-20 items-center">
         {isLoggedIn ? (

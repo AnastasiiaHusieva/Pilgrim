@@ -110,7 +110,7 @@ function Navbar() {
       <div className="flex justify-between items-center pl-2 pr-2">
         <Link to={`/`}>
           <div className="p-1 w-50 h-12">
-            <img className="p-1 w-50 h-12" src="/imgs/longerlogo.png" alt="" />
+           {isDarkMode ?  <img className="p-1 w-50 h-12" src="/imgs/longerlogo.png" alt="" /> :  <img className="p-1 w-50 h-12" src="/imgs/longerlogolight.png" alt="" />}
           </div>
         </Link>
         <div className="hidden md:block">

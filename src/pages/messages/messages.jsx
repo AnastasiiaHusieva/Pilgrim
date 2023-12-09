@@ -46,11 +46,6 @@ function Messages() {
       setChat(thisChat.data);
       setLoading(false);
 
-      console.log("USERID: ", userId);
-      console.log(
-        "SENDERID: ",
-        thisChat.data.messages[thisChat.data.messages.length - 1].senderId
-      );
 
       if (
         userId !==
@@ -60,7 +55,6 @@ function Messages() {
           `${process.env.REACT_APP_SERVER_URL}/inbox/messages/isRead/${chatData._id}`
         );
         const isReadData = isRead.data;
-        console.log(isReadData);
       }
 
       // Fetch isRead data
