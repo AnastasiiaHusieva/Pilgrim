@@ -155,7 +155,7 @@ function Newsfeed() {
   };
 
   return (
-    <div className={` ${isDarkMode ? 'dark' : 'light'} w-100 mx-5 mt-10 flex flex-col `}>
+    <div className={` ${isDarkMode ? 'dark' : 'light'} w-100 mx-5 mt-10 flex flex-col h-screen`}>
       <div className="mb-8 px-8 relative">
       <button onClick={() => navigate(-1)} className="cursor-pointer absolute top-0 left-0">
             {isDarkMode ? <img className="w-5" src="/imgs/backlight.png" alt="arrow back" /> : <img className="w-5" src="/imgs/back.png" alt="arrow back" />}
