@@ -52,7 +52,7 @@ function NotificationsPage() {
 
 
   return (
-    <div className="w-screen">
+    <div className={`w-screen h-screen ${isDarkMode ? "dark": "light"}`}>
       <div className="flex items-center justify-center mx-5 my-5 ">
         <div className="flex items-center">
           <button onClick={() => navigate(-1)} className="cursor-pointer">
@@ -79,11 +79,15 @@ function NotificationsPage() {
 
             <div className="flex justify-between mx-5 my-3" key={notification._id}>
               {notification.type === 'like' ? (
+                     <Link to={`/profile/${notification.user._id}`} >
                 <p><span className="font-extrabold">{`${notification.user.name} `}</span><span className='italic'>liked your post</span></p>
+                </Link>
               ) : (
                 <div>
                   <p>
+                  <Link to={`/profile/${notification.user._id}`} >
                     <span className="font-extrabold">{`${notification.user.name} `} </span>
+                  </Link>
                     <span className='italic'>commented your post:</span>
                     <span className="md:inline hidden">  {`${notification.content}`}</span>
                   </p>

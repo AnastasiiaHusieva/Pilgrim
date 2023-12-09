@@ -1,13 +1,15 @@
 import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useTheme } from '../../context/ThemeContext';
 
 import React from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/auth.context";
-// const getToken = () => localStorage.getItem("token");
 
 function InboxPage() {
   const [chat, setNewChat] = useState([]);
+  const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
   const [firstMessage, setFirstMessage] = useState([]);
   // const [numberOfMessage, setNewNumberOfMessage] = useState(0);
 
@@ -96,14 +98,16 @@ function InboxPage() {
 
   // console.log("hello", chat[0].recipientId);
   return (
-    <div className="text-xs flex flex-col">
+    <div className="text-xs relative flex flex-col h-screen w-screen">
+      <button onClick={() => navigate(-1)} className="cursor-pointer absolute left-3 top-3">
+        {isDarkMode ? <img className="w-5" src="/imgs/backlight.png" alt="arrow back" /> : <img className="w-5" src="/imgs/back.png" alt="arrow back" />}
+      </button>
       <h1 className="pt-2 pb-5 text-lg">INBOX</h1>
-      <div className="overflow-auto">
+      <div className="overflow-auto w-full">
         {chat.map((chat, id) => (
           <Link
-            to={`/chat/${user._id}/${
-              chat._id
-            }/messages?user=${encodeURIComponent(JSON.stringify(chat))}`}
+            to={`/chat/${user._id}/${chat._id
+              }/messages?user=${encodeURIComponent(JSON.stringify(chat))}`}
             key={chat._id}
           >
             <p className="flex p-1 pb-5  items-start ">
@@ -113,7 +117,7 @@ function InboxPage() {
                 alt=""
               />{" "} */}
               <div className="border-b pb-4 flex justify-center items-center border-teal-darker">
-                <strong className="text-teal-light">{chat.user}</strong>
+                <h2 className="font-bold">{chat.user}</h2>
 
                 <div>
                   <p className="w-60 text-md text-teal-normal">
@@ -123,26 +127,26 @@ function InboxPage() {
                     ...
                   </p>
                 </div>
-                <div className=" text-teal-light">
+                <div className=" text-teal-300">
                   <p className="font-bold">
                     {todaysDate ===
-                    new Date(
-                      chat.messages.length >= 0
-                        ? chat.messages[0].createdAt
-                        : ""
-                    ).toLocaleString("en-US", {
-                      hour: "numeric",
-                      minute: "numeric",
-                    })
+                      new Date(
+                        chat.messages.length >= 0
+                          ? chat.messages[0].createdAt
+                          : ""
+                      ).toLocaleString("en-US", {
+                        hour: "numeric",
+                        minute: "numeric",
+                      })
                       ? todaysDate
                       : new Date(
-                          chat.messages.length >= 0
-                            ? chat.messages[0].createdAt
-                            : ""
-                        ).toLocaleString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                        })}
+                        chat.messages.length >= 0
+                          ? chat.messages[0].createdAt
+                          : ""
+                      ).toLocaleString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })}
                   </p>
                 </div>
               </div>

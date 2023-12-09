@@ -15,13 +15,14 @@
 
 .light input {
   border: 1px solid #ddd;
+  background-color: #ffffff;
 }
 
 .light p {
-  color: #333333;
+  color: #464646;
 }
-.light h2 {
-  color: #333333;
+.light h1, h2 {
+  color: #464646;
 }
 
 /* Dark Theme */
