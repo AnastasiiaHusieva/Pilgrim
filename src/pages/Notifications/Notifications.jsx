@@ -52,7 +52,7 @@ function NotificationsPage() {
 
 
   return (
-    <div>
+    <div className="w-screen">
       <div className="flex items-center justify-center mx-5 my-5 ">
         <div className="flex items-center">
           <button onClick={() => navigate(-1)} className="cursor-pointer">
@@ -90,7 +90,7 @@ function NotificationsPage() {
                   <p className="md:hidden inline">{`${notification.content}`}</p>
                 </div>
               )}
-              <img className="w-10" src={notification.post.photo} alt="post photo" />
+              <img className="w-10 h-10" src={notification.post.photo} alt="post photo" />
             </div>
           </Link>
         ))}

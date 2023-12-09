@@ -4,6 +4,9 @@
   background-color: #333333;
 }
 
+.appcont {
+  background-color: #333333;
+}
 /* Light Theme */
 .light {
   background-color: #ffffff;
@@ -31,3 +34,19 @@
   border: 1px solid #ffffff;
   background-color: #333333;
 }
+
+/* YourComponent.css */
+
+@keyframes slideAnimation {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+.city-img{
+  animation: slideAnimation 4s linear infinite; 
+}
+
